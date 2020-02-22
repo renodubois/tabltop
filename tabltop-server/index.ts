@@ -34,8 +34,9 @@ const typeDefs = gql`
 
     type Query {
         posts: [Post]
+        games: [Game]
     }
-`
+`;
 // SAMPLE DATA
 // TODO: add TS types for this
 const Games = [
@@ -44,10 +45,22 @@ const Games = [
         name: "Wingspan",
         publisher: "Stonemaier Games",
         yearPublished: 2019,
-        thumbnailURL: "https://cf.geekdo-images.com/thumb/img/wvfZwwtcqpth4bgHnh4M-EhUCXg=/fit-in/200x150/pic4458123.jpg",
+        thumbnailURL:
+            "https://cf.geekdo-images.com/thumb/img/wvfZwwtcqpth4bgHnh4M-EhUCXg=/fit-in/200x150/pic4458123.jpg",
         minPlayers: 1,
         maxPlayers: 5,
         categories: ["Card Game", "Set Collection"]
+    },
+    {
+        id: "169786",
+        name: "Scythe",
+        publisher: "Stonemaier Games",
+        yearPublished: 2016,
+        thumbnailURL:
+            "https://cf.geekdo-images.com/thumb/img/ZpuWhZuKrFry__SY8CTRuQp35rk=/fit-in/200x150/pic3163924.jpg",
+        minPlayers: 1,
+        maxPlayers: 5,
+        categories: ["Economic", "Territory Building"]
     }
 ];
 
@@ -57,7 +70,7 @@ const Users = [
         username: "reno",
         bio: "tabltop dev person"
     }
-]
+];
 
 const Posts = [
     {
@@ -73,18 +86,18 @@ const Posts = [
         game: Games[0],
         caption: "Yet another great game of Wingspan",
         location: "My House"
-    },
-]
-
+    }
+];
 
 // ACTUAL SERVER CODE
 const resolvers = {
     Query: {
-        posts: () => Posts
+        posts: () => Posts,
+        games: () => Games
     }
-}
+};
 
 const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`)
-})
+    console.log(`🚀  Server ready at ${url}`);
+});

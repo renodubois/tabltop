@@ -6,10 +6,14 @@ import React from "react";
 import Feed from "./components/Feed";
 import CheckIn from "./components/CheckIn";
 import { Theme } from "@react-navigation/native/lib/typescript/src/types";
+import { StatusBar } from "react-native";
+import CheckInGameSelectorWrapper from "./components/CheckInGameSelectorWrapper";
+import { Game } from "./types";
 
 export type StackNavigationParamsList = {
     Feed: undefined;
-    CheckIn: undefined;
+    CheckIn: { game: Game };
+    GameSearch: undefined;
 };
 
 const client = new ApolloClient({ uri: "http://localhost:4000" });
@@ -29,16 +33,28 @@ const AppTheme: Theme = {
 const App = () => {
     return (
         <ApolloProvider client={client}>
+            <StatusBar barStyle="light-content" />
             <NavigationContainer theme={AppTheme}>
                 <Stack.Navigator
                     initialRouteName="Feed"
-                    screenOptions={{ headerBackTitle: "Back" }}
+                    screenOptions={{
+                        headerBackTitle: "Back",
+                        headerStyle: {
+                            backgroundColor: "#1c329c"
+                        },
+                        headerTintColor: "#ffffff"
+                    }}
                 >
                     <Stack.Screen name="Feed" component={Feed} />
                     <Stack.Screen
                         name="CheckIn"
                         component={CheckIn}
                         options={{ title: "Check In" }}
+                    />
+                    <Stack.Screen
+                        name="GameSearch"
+                        component={CheckInGameSelectorWrapper}
+                        options={{ title: "Find a game" }}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

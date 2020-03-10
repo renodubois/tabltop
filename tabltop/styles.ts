@@ -13,6 +13,14 @@ const Styles = StyleSheet.create({
     gameSearchLabelText: {
         textAlign: "center",
         fontSize: 18
+    },
+    searchInput: {
+        width: "100%",
+        textAlign: "center",
+        padding: 20
+    },
+    searchInputText: {
+        fontWeight: "bold"
     }
 });
 

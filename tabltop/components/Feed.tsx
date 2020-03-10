@@ -1,11 +1,14 @@
-import React from "react";
-import { Button, Text, View } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import { Post } from "types";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { gql } from "apollo-boost";
 import { StackNavigationParamsList } from "App";
+import React, { useState } from "react";
+import { Button, Modal, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Post } from "types";
+import Styles from "../styles";
+import SearchModal from "./SearchModal";
 
 interface GetPostsData {
     posts: Post[];
@@ -32,6 +35,7 @@ interface Props {
 
 const Feed = ({ navigation, route }: Props) => {
     const { loading, error, data } = useQuery<GetPostsData>(GET_POSTS);
+    const [gameSearchOpen, setGameSearchOpen] = useState<boolean>(false);
     if (loading) {
         return <Text>Loading...</Text>;
     }
@@ -42,10 +46,18 @@ const Feed = ({ navigation, route }: Props) => {
     if (data) {
         return (
             <>
+                <SearchModal
+                    onDismiss={() => setGameSearchOpen(false)}
+                    onSubmit={() => {
+                        setGameSearchOpen(false);
+                        navigation.navigate("GameSearch");
+                    }}
+                    visible={gameSearchOpen}
+                />
                 <View>
                     {/* The text for this button kind of sucks, think about what to change that to */}
                     <Button
-                        onPress={() => navigation.navigate("CheckIn")}
+                        onPress={() => setGameSearchOpen(true)}
                         title="Add a check-in"
                     />
                 </View>

@@ -1,17 +1,19 @@
 import { useQuery } from "@apollo/react-hooks";
+import Slider from "@react-native-community/slider";
 import { gql } from "apollo-boost";
 import React, { useState } from "react";
-import { Image, Text, View, Button } from "react-native";
-import Slider from "@react-native-community/slider";
-import Styles from "../styles";
-import { Game } from "../types";
-import CheckInGameSelector from "./CheckInGameSelector";
+import { Image, StatusBar, Text, View } from "react-native";
 import {
+    ScrollView,
     TextInput,
-    TouchableOpacity,
-    ScrollView
+    TouchableOpacity
 } from "react-native-gesture-handler";
+import Styles from "../styles";
+import { Game, BaseProps } from "../types";
+import CheckInGameSelector from "./CheckInGameSelector";
+import CheckInOptionalItems from "./CheckInOptionalItems";
 
+interface Props extends BaseProps<"CheckIn"> {}
 interface GameDataReturn {
     games: Game[];
 }
@@ -32,34 +34,12 @@ const GET_GAMES = gql`
     }
 `;
 
-const CheckIn = () => {
+const CheckIn = ({ navigation, route }: Props) => {
     const [formData, setFormData] = useState<CheckInFormData>({
         caption: "",
-        rating: 1
+        rating: 1,
+        game: route.params.game
     });
-    const { loading, error, data } = useQuery<GameDataReturn>(GET_GAMES);
-    if (!data) {
-        // handle request failure
-        return <Text>whoops</Text>;
-    }
-    const onGameSelect = (game: Game) => {
-        setFormData({ ...formData, game });
-    };
-    if (!formData.game) {
-        return (
-            <>
-                <View style={Styles.gameSearchLabel}>
-                    <Text style={Styles.gameSearchLabelText}>
-                        Search for a game:
-                    </Text>
-                </View>
-                <CheckInGameSelector
-                    games={data.games}
-                    onGameSelect={onGameSelect}
-                />
-            </>
-        );
-    }
     // TODO: fix border radius when scrolling overflow gets enabled
     const caption = (
         <TextInput
@@ -137,10 +117,12 @@ const CheckIn = () => {
     const submitButton = (
         <View style={{ justifyContent: "flex-end" }}>
             <TouchableOpacity
-                onPress={() => console.log("nice")}
+                onPress={() => navigation.navigate("Feed")}
                 style={{
                     width: "100%",
-                    backgroundColor: "#0967D2",
+                    // TODO: look into making this a different shade of blue, or another color entirely.
+                    // It doesn't look _great_ with the dark blue header
+                    backgroundColor: "#47A3F3",
                     paddingTop: 22,
                     // TODO: this should be variable based on iPhone notches
                     paddingBottom: 36
@@ -217,6 +199,7 @@ const CheckIn = () => {
                 </View>
                 {caption}
                 {rating}
+                <CheckInOptionalItems />
             </ScrollView>
             {submitButton}
         </>

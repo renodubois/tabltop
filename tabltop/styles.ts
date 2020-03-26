@@ -15,12 +15,27 @@ const Styles = StyleSheet.create({
         fontSize: 18
     },
     searchInput: {
-        width: "100%",
-        textAlign: "center",
-        padding: 20
+        backgroundColor: "white",
+        width: "90%",
+        padding: 20,
+        marginTop: 15,
+        marginLeft: 20,
+        marginBottom: 20,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "black",
+        borderStyle: "solid",
+        flexDirection: "row",
+        shadowColor: "black",
+        shadowOffset: { width: 5, height: 5 },
+        shadowRadius: 3,
+        shadowOpacity: 0.2
     },
     searchInputText: {
-        fontWeight: "bold"
+        fontSize: 18,
+        color: "#353535",
+        marginLeft: 10,
+        lineHeight: 24
     }
 });
 

@@ -6,7 +6,7 @@ import { StackNavigationParamsList } from "App";
 import React from "react";
 import { View } from "react-native";
 import { Game, BaseProps } from "types";
-import CheckInGameSelector from "./CheckInGameSelector";
+import GameSearch from "./GameSearch";
 import ErrorOverlay from "./ErrorOverlay";
 import LoadingOverlay from "./LoadingOverlay";
 
@@ -26,7 +26,7 @@ const GET_GAMES = gql`
     }
 `;
 
-const CheckInGameSelectorWrapper = ({ navigation }: Props) => {
+const GameSearchWrapper = ({ navigation }: Props) => {
     const { loading, error, data } = useQuery<GameDataReturn>(GET_GAMES);
     if (loading) {
         return <LoadingOverlay />;
@@ -39,7 +39,7 @@ const CheckInGameSelectorWrapper = ({ navigation }: Props) => {
     }
     return (
         <View style={{ backgroundColor: "white" }}>
-            <CheckInGameSelector
+            <GameSearch
                 games={data.games}
                 onGameSelect={(game: Game) =>
                     navigation.navigate("CheckIn", { game })
@@ -49,4 +49,4 @@ const CheckInGameSelectorWrapper = ({ navigation }: Props) => {
     );
 };
 
-export default CheckInGameSelectorWrapper;
+export default GameSearchWrapper;

@@ -1,16 +1,13 @@
-import { useQuery } from "@apollo/react-hooks";
 import Slider from "@react-native-community/slider";
 import { gql } from "apollo-boost";
 import React, { useState } from "react";
-import { Image, StatusBar, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import {
     ScrollView,
     TextInput,
     TouchableOpacity
 } from "react-native-gesture-handler";
-import Styles from "../styles";
-import { Game, BaseProps } from "../types";
-import CheckInGameSelector from "./CheckInGameSelector";
+import { BaseProps, Game } from "../types";
 import CheckInOptionalItems from "./CheckInOptionalItems";
 
 interface Props extends BaseProps<"CheckIn"> {}
@@ -40,6 +37,13 @@ const CheckIn = ({ navigation, route }: Props) => {
         rating: 1,
         game: route.params.game
     });
+    if (!formData.game) {
+        return (
+            <View>
+                <Text>game not found, something went wrong</Text>
+            </View>
+        );
+    }
     // TODO: fix border radius when scrolling overflow gets enabled
     const caption = (
         <TextInput

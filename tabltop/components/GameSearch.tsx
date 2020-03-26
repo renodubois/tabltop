@@ -19,14 +19,18 @@ const findGame = (query: string, games: Game[]) => {
     return games.filter(game => game.name.search(regex) >= 0);
 };
 
-const CheckInGameSelector = ({ games, onGameSelect }: Props) => {
+const GameSearch = ({ games, onGameSelect }: Props) => {
     const [query, setQuery] = useState<string>("");
     const searchData = findGame(query, games);
     return (
         <View>
             <Autocomplete
+                containerStyle={Styles.gameSearchContainer}
+                autoFocus={true}
                 defaultValue={query}
                 data={searchData}
+                placeholder="Find a game"
+                placeholderTextColor="#353535"
                 onChangeText={text => setQuery(text)}
                 renderItem={params => {
                     const { item, index } = params;
@@ -38,23 +42,19 @@ const CheckInGameSelector = ({ games, onGameSelect }: Props) => {
                             <View style={Styles.itemContainer}>
                                 <Image
                                     source={{ uri: item.thumbnailURL }}
-                                    style={{ width: 50, height: 50 }}
+                                    style={Styles.gameSearchItemImage}
                                 />
-                                <Text
-                                    style={{
-                                        fontSize: 16,
-                                        paddingLeft: 10
-                                    }}
-                                >
+                                <Text style={Styles.gameSearchItemText}>
                                     {item.name} ({item.yearPublished})
                                 </Text>
                             </View>
                         </TouchableOpacity>
                     );
                 }}
+                style={Styles.gameSearchInput}
             />
         </View>
     );
 };
 
-export default CheckInGameSelector;
+export default GameSearch;

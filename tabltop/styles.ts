@@ -1,11 +1,22 @@
 import { StyleSheet } from "react-native";
 
 const Styles = StyleSheet.create({
-    itemContainer: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        paddingBottom: 5
+    gameSearchContainer: {},
+    gameSearchItemImage: {
+        height: 80,
+        width: 80,
+        margin: 10,
+        borderRadius: 5
+    },
+    gameSearchInput: {
+        padding: 20,
+        borderRadius: 5,
+        fontSize: 18,
+        color: "#353535"
+    },
+    gameSearchItemText: {
+        fontSize: 18,
+        padding: 10
     },
     gameSearchLabel: {
         padding: 10
@@ -13,6 +24,14 @@ const Styles = StyleSheet.create({
     gameSearchLabelText: {
         textAlign: "center",
         fontSize: 18
+    },
+    itemContainer: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        // TODO: this applies to the last element in the search box, when it shouldn't
+        borderBottomColor: "#c8ced7",
+        borderBottomWidth: 1
     },
     searchInput: {
         backgroundColor: "white",

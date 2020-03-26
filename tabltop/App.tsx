@@ -7,7 +7,7 @@ import Feed from "./components/Feed";
 import CheckIn from "./components/CheckIn";
 import { Theme } from "@react-navigation/native/lib/typescript/src/types";
 import { StatusBar } from "react-native";
-import CheckInGameSelectorWrapper from "./components/CheckInGameSelectorWrapper";
+import GameSearchWrapper from "./components/GameSearchWrapper";
 import { Game } from "./types";
 
 export type StackNavigationParamsList = {
@@ -53,7 +53,7 @@ const App = () => {
                     />
                     <Stack.Screen
                         name="GameSearch"
-                        component={CheckInGameSelectorWrapper}
+                        component={GameSearchWrapper}
                         options={{ title: "Find a game" }}
                     />
                 </Stack.Navigator>

@@ -4,10 +4,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { gql } from "apollo-boost";
 import { StackNavigationParamsList } from "App";
 import React, { useState } from "react";
-import { Button, Modal, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Button, Text, View } from "react-native";
 import { Post } from "types";
-import Styles from "../styles";
 import SearchModal from "./SearchModal";
 
 interface GetPostsData {

@@ -3,7 +3,7 @@ import { ActionSheetIOS, ImageBackground, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ImagePicker, {
     Image as ImageObject,
-    Options
+    Options,
 } from "react-native-image-crop-picker";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 import CircleDeleteIcon from "../icons/CircleDeleteIcon";
@@ -19,12 +19,12 @@ interface FormattedImageObject {
 enum addPhotoActionSheetResults {
     CANCEL_ACTION,
     TAKE_PHOTO,
-    CHOOSE_PHOTOS
+    CHOOSE_PHOTOS,
 }
 const imagePickerOptions: Options = {
     multiple: true,
     maxFiles: 4,
-    includeBase64: true
+    includeBase64: true,
 };
 const USER_CANCELLED_IMAGE_SELECTION_MESSAGE = "User cancelled image selection";
 
@@ -32,12 +32,12 @@ const handleImages = (
     value: ImageObject | ImageObject[]
 ): FormattedImageObject[] => {
     if (Array.isArray(value)) {
-        const formattedImageObjects = value.map(image => {
+        const formattedImageObjects = value.map((image) => {
             return {
                 id: Math.random() * 100,
                 uri: `data:${image.mime};base64,` + image.data,
                 width: image.width,
-                height: image.height
+                height: image.height,
             };
         });
         return formattedImageObjects;
@@ -47,8 +47,8 @@ const handleImages = (
                 id: Math.random() * 100,
                 uri: `data:${value.mime};base64,` + value.data,
                 width: value.width,
-                height: value.height
-            }
+                height: value.height,
+            },
         ];
     }
 };
@@ -58,8 +58,8 @@ const CheckInOptionalItems = ({}) => {
 
     const openPhotoPicker = () => {
         ImagePicker.openPicker(imagePickerOptions).then(
-            value => setImages(handleImages(value)),
-            reason => {
+            (value) => setImages(handleImages(value)),
+            (reason) => {
                 if (reason.message === USER_CANCELLED_IMAGE_SELECTION_MESSAGE) {
                     return;
                 } else {
@@ -71,8 +71,8 @@ const CheckInOptionalItems = ({}) => {
 
     const openCamera = () => {
         ImagePicker.openCamera(imagePickerOptions).then(
-            value => setImages(handleImages(value)),
-            reason => {
+            (value) => setImages(handleImages(value)),
+            (reason) => {
                 // TODO: update this when able to test on real device
                 console.error(reason);
             }
@@ -83,9 +83,9 @@ const CheckInOptionalItems = ({}) => {
         ActionSheetIOS.showActionSheetWithOptions(
             {
                 options: ["Cancel", "Take Photo...", "Choose from Library..."],
-                cancelButtonIndex: 0
+                cancelButtonIndex: 0,
             },
-            buttonIndex => {
+            (buttonIndex) => {
                 switch (buttonIndex) {
                     case addPhotoActionSheetResults.CANCEL_ACTION:
                         return;
@@ -119,11 +119,11 @@ const CheckInOptionalItems = ({}) => {
                     height: 80,
                     width: 80,
                     margin: 10,
-                    borderRadius: 5
+                    borderRadius: 5,
                 }}
             >
                 <TouchableOpacity
-                    onPress={e => {
+                    onPress={(e) => {
                         const oldImages = [...images];
                         oldImages.splice(index, 1);
                         setImages(oldImages);
@@ -131,7 +131,7 @@ const CheckInOptionalItems = ({}) => {
                     style={{
                         height: 25,
                         width: 25,
-                        marginLeft: 54
+                        marginLeft: 54,
                     }}
                 >
                     <CircleDeleteIcon color="#000000" opacity={0.7} />
@@ -141,11 +141,11 @@ const CheckInOptionalItems = ({}) => {
     };
 
     const addImageButton = (
-        <TouchableOpacity onPress={_ => onAddImagePress()}>
+        <TouchableOpacity onPress={(_) => onAddImagePress()}>
             <View
                 style={[
                     Styles.checkInOptionalItemWrapper,
-                    Styles.checkInOptionalItemTopWrapper
+                    Styles.checkInOptionalItemTopWrapper,
                 ]}
             >
                 <View style={{ height: 40, width: 40 }}>
@@ -163,7 +163,7 @@ const CheckInOptionalItems = ({}) => {
         </TouchableOpacity>
     );
     const addLocationButton = (
-        <TouchableOpacity onPress={_ => onAddLocationPress()}>
+        <TouchableOpacity onPress={(_) => onAddLocationPress()}>
             <View style={Styles.checkInOptionalItemWrapper}>
                 <View style={{ height: 40, width: 40 }}>
                     <ImageIcon color="#52606D" />
@@ -180,7 +180,7 @@ const CheckInOptionalItems = ({}) => {
         </TouchableOpacity>
     );
     const addFriendsButton = (
-        <TouchableOpacity onPress={_ => onAddFriendsPress()}>
+        <TouchableOpacity onPress={(_) => onAddFriendsPress()}>
             <View style={Styles.checkInOptionalItemWrapper}>
                 <View style={{ height: 40, width: 40 }}>
                     <ImageIcon color="#52606D" />

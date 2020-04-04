@@ -1,6 +1,25 @@
 import { StyleSheet } from "react-native";
 
 const Styles = StyleSheet.create({
+    checkInOptionalItemWrapper: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        height: 80,
+        marginLeft: 10,
+        marginRight: 10,
+        borderColor: "#7B8794",
+        borderBottomWidth: 1,
+        alignItems: "center"
+    },
+    checkInOptionalItemTopWrapper: {
+        borderTopWidth: 1
+    },
+    checkInOptionalItemText: {
+        color: "#353535",
+        fontSize: 18,
+        textTransform: "uppercase",
+        marginLeft: 10
+    },
     gameSearchContainer: {},
     gameSearchItemImage: {
         height: 80,

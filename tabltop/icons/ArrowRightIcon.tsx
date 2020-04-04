@@ -2,20 +2,24 @@ import React from "react";
 import { Svg, Path } from "react-native-svg";
 import { IconBaseProps } from "../icons";
 
-interface SearchIconProps extends IconBaseProps {}
+interface ArrowRightIconProps extends IconBaseProps {
+    color: string;
+}
 
-function SearchIcon({ color }: SearchIconProps) {
+function ArrowRightIcon({ color }: ArrowRightIconProps) {
     return (
-        <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+        <Svg viewBox="0 0 100 100" fill="none">
             <Path
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                d="M9 5l7 7-7 7"
                 stroke={color}
                 strokeWidth={2}
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                scaleX={4}
+                scaleY={4}
             />
         </Svg>
     );
 }
 
-export default SearchIcon;
+export default ArrowRightIcon;

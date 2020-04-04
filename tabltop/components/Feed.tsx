@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { StackNavigationParamsList } from "App";
 import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
@@ -60,7 +60,7 @@ const Feed = ({ navigation, route }: Props) => {
                     />
                 </View>
                 <View>
-                    {data.posts.map(post => {
+                    {data.posts.map((post) => {
                         return (
                             <View key={post.id}>
                                 <Text>

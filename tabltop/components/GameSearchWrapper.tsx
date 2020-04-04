@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { StackNavigationParamsList } from "App";
 import React from "react";
 import { View } from "react-native";

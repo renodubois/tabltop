@@ -1,7 +1,6 @@
 import { ApolloProvider } from "@apollo/react-hooks";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import ApolloClient from "apollo-boost";
 import React from "react";
 import Feed from "./components/Feed";
 import CheckIn from "./components/CheckIn";
@@ -9,6 +8,7 @@ import { Theme } from "@react-navigation/native/lib/typescript/src/types";
 import { StatusBar } from "react-native";
 import GameSearchWrapper from "./components/GameSearchWrapper";
 import { Game } from "./types";
+import { initApolloClient } from "./apollo";
 
 export type StackNavigationParamsList = {
     Feed: undefined;
@@ -16,7 +16,7 @@ export type StackNavigationParamsList = {
     GameSearch: undefined;
 };
 
-const client = new ApolloClient({ uri: "http://localhost:4000" });
+const client = initApolloClient();
 const Stack = createStackNavigator<StackNavigationParamsList>();
 
 const AppTheme: Theme = {
@@ -25,9 +25,9 @@ const AppTheme: Theme = {
         background: "#CBD2D9",
         card: "#ffffff",
         border: "#ffffff",
-        text: "#000000"
+        text: "#000000",
     },
-    dark: false
+    dark: false,
 };
 
 const App = () => {
@@ -40,9 +40,9 @@ const App = () => {
                     screenOptions={{
                         headerBackTitle: "Back",
                         headerStyle: {
-                            backgroundColor: "#1c329c"
+                            backgroundColor: "#1c329c",
                         },
-                        headerTintColor: "#ffffff"
+                        headerTintColor: "#ffffff",
                     }}
                 >
                     <Stack.Screen name="Feed" component={Feed} />

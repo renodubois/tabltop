@@ -1,11 +1,11 @@
 import Slider from "@react-native-community/slider";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Image, Text, View } from "react-native";
 import {
     ScrollView,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
 } from "react-native-gesture-handler";
 import { BaseProps, Game } from "../types";
 import CheckInOptionalItems from "./CheckInOptionalItems";
@@ -35,7 +35,7 @@ const CheckIn = ({ navigation, route }: Props) => {
     const [formData, setFormData] = useState<CheckInFormData>({
         caption: "",
         rating: 1,
-        game: route.params.game
+        game: route.params.game,
     });
     if (!formData.game) {
         return (
@@ -48,7 +48,7 @@ const CheckIn = ({ navigation, route }: Props) => {
     const caption = (
         <TextInput
             value={formData.caption}
-            onChangeText={caption => setFormData({ ...formData, caption })}
+            onChangeText={(caption) => setFormData({ ...formData, caption })}
             style={{
                 marginTop: 30,
                 marginLeft: 10,
@@ -59,7 +59,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                 fontSize: 18,
                 backgroundColor: "#FFFFFF",
                 height: 110,
-                textAlignVertical: "top"
+                textAlignVertical: "top",
             }}
             multiline
             numberOfLines={4}
@@ -73,7 +73,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                 marginTop: 30,
                 marginLeft: 15,
                 marginRight: 25,
-                width: "100%"
+                width: "100%",
             }}
         >
             <Text style={{ fontSize: 14, color: "#353535", marginBottom: 25 }}>
@@ -81,13 +81,13 @@ const CheckIn = ({ navigation, route }: Props) => {
             </Text>
             <View
                 style={{
-                    flexDirection: "row"
+                    flexDirection: "row",
                 }}
             >
                 <Slider
                     minimumValue={1}
                     maximumValue={5}
-                    onValueChange={rating =>
+                    onValueChange={(rating) =>
                         setFormData({ ...formData, rating })
                     }
                     step={0.25}
@@ -99,7 +99,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                         flexDirection: "row",
                         flex: 1,
                         paddingLeft: 45,
-                        alignSelf: "center"
+                        alignSelf: "center",
                     }}
                 >
                     <Text
@@ -108,7 +108,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                             fontWeight: "bold",
                             lineHeight: 35,
                             minWidth: 62,
-                            textAlign: "right"
+                            textAlign: "right",
                         }}
                     >
                         {formData.rating}
@@ -129,7 +129,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                     backgroundColor: "#47A3F3",
                     paddingTop: 22,
                     // TODO: this should be variable based on iPhone notches
-                    paddingBottom: 36
+                    paddingBottom: 36,
                 }}
             >
                 <Text
@@ -140,7 +140,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                         fontWeight: "bold",
                         fontSize: 24,
                         textAlign: "center",
-                        letterSpacing: 2
+                        letterSpacing: 2,
                     }}
                 >
                     CHECK IN
@@ -159,7 +159,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                         flexDirection: "row",
                         backgroundColor: "#E6F6FF",
                         borderRadius: 10,
-                        overflow: "hidden"
+                        overflow: "hidden",
                     }}
                 >
                     <Image
@@ -172,7 +172,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                                 style={{
                                     fontSize: 24,
                                     fontWeight: "bold",
-                                    lineHeight: 48
+                                    lineHeight: 48,
                                 }}
                             >
                                 {formData.game.name}
@@ -184,7 +184,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                                     fontStyle: "italic",
                                     color: "#52606D",
                                     paddingLeft: 10,
-                                    lineHeight: 48
+                                    lineHeight: 48,
                                 }}
                             >
                                 ({formData.game.yearPublished})
@@ -194,7 +194,7 @@ const CheckIn = ({ navigation, route }: Props) => {
                             style={{
                                 fontSize: 18,
                                 fontVariant: ["small-caps"],
-                                color: "#3E4C59"
+                                color: "#3E4C59",
                             }}
                         >
                             {formData.game.publisher.toLowerCase()}

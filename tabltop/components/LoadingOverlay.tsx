@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
+import Styles from "../styles";
 
 const LoadingOverlay = ({}) => (
-    <View>
-        <Text>Loading...</Text>
+    <View style={{ alignSelf: "center", paddingTop: 20 }}>
+        <Text style={Styles.searchFailureText}>Loading...</Text>
     </View>
 );
 

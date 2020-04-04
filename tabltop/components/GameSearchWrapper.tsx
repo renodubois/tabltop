@@ -1,22 +1,20 @@
 import { useQuery } from "@apollo/react-hooks";
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import gql from "graphql-tag";
-import { StackNavigationParamsList } from "App";
-import React from "react";
-import { View } from "react-native";
-import { Game, BaseProps } from "types";
-import GameSearch from "./GameSearch";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import { BaseProps, Game } from "types";
 import ErrorOverlay from "./ErrorOverlay";
+import GameSearch from "./GameSearch";
 import LoadingOverlay from "./LoadingOverlay";
+import Styles from "../styles";
 
 interface Props extends BaseProps<"Feed"> {}
 interface GameDataReturn {
-    games: Game[];
+    searchGames: Game[];
 }
 const GET_GAMES = gql`
-    {
-        games {
+    query GetGames($query: String) {
+        searchGames(query: $query) {
             id
             name
             publisher
@@ -27,25 +25,40 @@ const GET_GAMES = gql`
 `;
 
 const GameSearchWrapper = ({ navigation }: Props) => {
-    const { loading, error, data } = useQuery<GameDataReturn>(GET_GAMES);
-    if (loading) {
-        return <LoadingOverlay />;
-    }
+    const [query, setQuery] = useState<string>("");
+    const { loading, error, data } = useQuery<GameDataReturn>(GET_GAMES, {
+        variables: { query },
+    });
+    let ResultsError: React.ReactNode | null = null;
     if (error) {
         return <ErrorOverlay error={error} />;
     }
-    if (!data) {
-        return <ErrorOverlay error={"No data found when querying games"} />;
+    if (!loading) {
+        if ((data && data.searchGames.length === 0) || !data) {
+            ResultsError = (
+                <View style={{ alignSelf: "center", paddingTop: 30 }}>
+                    <Text style={Styles.searchFailureText}>
+                        No results found.
+                    </Text>
+                </View>
+            );
+        }
     }
     return (
-        <View style={{ backgroundColor: "white" }}>
-            <GameSearch
-                games={data.games}
-                onGameSelect={(game: Game) =>
-                    navigation.navigate("CheckIn", { game })
-                }
-            />
-        </View>
+        <>
+            <View style={{ backgroundColor: "white" }}>
+                <GameSearch
+                    games={data && data.searchGames ? data.searchGames : []}
+                    query={query}
+                    onGameSelect={(game: Game) =>
+                        navigation.navigate("CheckIn", { game })
+                    }
+                    onTextChange={(newQuery: string) => setQuery(newQuery)}
+                />
+            </View>
+            {loading ? <LoadingOverlay /> : null}
+            {ResultsError}
+        </>
     );
 };
 

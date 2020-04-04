@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, Text, View } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,7 +7,9 @@ import { Game } from "../types";
 
 interface Props {
     games: Game[];
+    query: string;
     onGameSelect: (game: Game) => void;
+    onTextChange: (newQuery: string) => void;
 }
 
 const findGame = (query: string, games: Game[]) => {
@@ -16,11 +18,10 @@ const findGame = (query: string, games: Game[]) => {
     }
 
     const regex = new RegExp(`${query.trim()}`, "i");
-    return games.filter(game => game.name.search(regex) >= 0);
+    return games.filter((game) => game.name.search(regex) >= 0);
 };
 
-const GameSearch = ({ games, onGameSelect }: Props) => {
-    const [query, setQuery] = useState<string>("");
+const GameSearch = ({ games, query, onGameSelect, onTextChange }: Props) => {
     const searchData = findGame(query, games);
     return (
         <View>
@@ -31,8 +32,8 @@ const GameSearch = ({ games, onGameSelect }: Props) => {
                 data={searchData}
                 placeholder="Find a game"
                 placeholderTextColor="#353535"
-                onChangeText={text => setQuery(text)}
-                renderItem={params => {
+                onChangeText={(text) => onTextChange(text)}
+                renderItem={(params) => {
                     const { item, index } = params;
                     return (
                         <TouchableOpacity

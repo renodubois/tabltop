@@ -18,8 +18,6 @@
 		2DCD954D1E0B4F2C00145EB5 /* TabltopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TabltopTests.m */; };
 		331171C6BF56F8D9F1D0E2EB /* libPods-Tabltop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D013AF21ED1E21915056933D /* libPods-Tabltop.a */; };
 		60401462C81DA6CFF7CB8E8A /* libPods-Tabltop-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8007AC892B8F3607B140EAEE /* libPods-Tabltop-tvOS.a */; };
-		C0D7EAC32449435D0009D19D /* Tabltop.app in Resources */ = {isa = PBXBuildFile; fileRef = 13B07F961A680F5B00A75B9A /* Tabltop.app */; };
-		C0D7EAC4244943620009D19D /* TabltopTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 00E356EE1AD99517003FC87E /* TabltopTests.xctest */; };
 		D3CCAEAA8397292E32D9F518 /* libPods-TabltopTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B051A2F7482A2AC5423A8F /* libPods-TabltopTests.a */; };
 		FCA0014B689AA7294DDF36FC /* libPods-Tabltop-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 631EF2967B659BC87BE8E1EB /* libPods-Tabltop-tvOSTests.a */; };
 /* End PBXBuildFile section */
@@ -163,6 +161,7 @@
 				656109C91924E70002852CBD /* Pods-TabltopTests.debug.xcconfig */,
 				B55522F661BB9DBDD8ED0442 /* Pods-TabltopTests.release.xcconfig */,
 			);
+			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -294,9 +293,6 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
-					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = LMQKRSG8Z3;
-					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -313,7 +309,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -343,9 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C0D7EAC4244943620009D19D /* TabltopTests.xctest in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				C0D7EAC32449435D0009D19D /* Tabltop.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,8 +649,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = LMQKRSG8Z3;
-				"DEVELOPMENT_TEAM[sdk=*]" = LMQKRSG8Z3;
 				INFOPLIST_FILE = Tabltop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -665,7 +656,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.renodubois.Tabltop;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Tabltop;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -677,7 +668,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LMQKRSG8Z3;
 				INFOPLIST_FILE = Tabltop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -685,7 +675,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.renodubois.Tabltop;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Tabltop;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

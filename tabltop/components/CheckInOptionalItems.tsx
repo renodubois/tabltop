@@ -32,7 +32,7 @@ const handleImages = (
 	value: ImageObject | ImageObject[]
 ): FormattedImageObject[] => {
 	if (Array.isArray(value)) {
-		const formattedImageObjects = value.map(image => {
+		const formattedImageObjects = value.map((image) => {
 			return {
 				id: Math.random() * 100,
 				uri: `data:${image.mime};base64,` + image.data,
@@ -58,12 +58,12 @@ const CheckInOptionalItems = (): JSX.Element => {
 
 	const openPhotoPicker = (): void => {
 		ImagePicker.openPicker(imagePickerOptions).then(
-			value => setImages(handleImages(value)),
-			reason => {
+			(value) => setImages(handleImages(value)),
+			(reason) => {
 				if (reason.message === USER_CANCELLED_IMAGE_SELECTION_MESSAGE) {
 					return;
 				} else {
-					console.error(reason);
+					// console.error(reason);
 				}
 			}
 		);
@@ -71,10 +71,10 @@ const CheckInOptionalItems = (): JSX.Element => {
 
 	const openCamera = (): void => {
 		ImagePicker.openCamera(imagePickerOptions).then(
-			value => setImages(handleImages(value)),
-			reason => {
+			(value) => setImages(handleImages(value)),
+			(reason) => {
 				// TODO: update this when able to test on real device
-				console.error(reason);
+				// console.error(reason);
 			}
 		);
 	};
@@ -85,7 +85,7 @@ const CheckInOptionalItems = (): JSX.Element => {
 				options: ["Cancel", "Take Photo...", "Choose from Library..."],
 				cancelButtonIndex: 0
 			},
-			buttonIndex => {
+			(buttonIndex) => {
 				switch (buttonIndex) {
 					case addPhotoActionSheetResults.CANCEL_ACTION:
 						return;

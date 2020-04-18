@@ -12,7 +12,7 @@ type Props = BaseProps<"Feed">;
 interface GameDataReturn {
 	searchGames: Game[];
 }
-const GET_GAMES = gql`
+export const GET_GAMES = gql`
 	query GetGames($query: String) {
 		searchGames(query: $query) {
 			id

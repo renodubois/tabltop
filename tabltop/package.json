@@ -36,6 +36,7 @@
 		"react-native-svg": "^12.0.3"
 	},
 	"devDependencies": {
+		"@apollo/react-testing": "^3.1.4",
 		"@babel/core": "^7.6.2",
 		"@babel/runtime": "^7.6.2",
 		"@react-native-community/eslint-config": "^0.0.5",
@@ -48,7 +49,9 @@
 		"eslint": "^6.8.0",
 		"eslint-config-prettier": "^6.10.1",
 		"eslint-plugin-react": "^7.19.0",
+		"identity-obj-proxy": "^3.0.0",
 		"jest": "^24.9.0",
+		"jest-transform-stub": "^2.0.0",
 		"metro-react-native-babel-preset": "^0.56.0",
 		"react-test-renderer": "16.9.0",
 		"typescript": "^3.7.3"
@@ -62,7 +65,14 @@
 			"jsx",
 			"json",
 			"node"
-		]
+		],
+		"setupFiles": [
+			"./node_modules/react-native-gesture-handler/jestSetup.js"
+		],
+		"moduleNameMapper": {
+			".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
+			"\\.(css|less)$": "identity-obj-proxy"
+		}
 	},
 	"prettier": {
 		"tabWidth": 4,

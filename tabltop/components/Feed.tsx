@@ -11,7 +11,7 @@ import SearchModal from "./SearchModal";
 interface GetPostsData {
 	posts: Post[];
 }
-const GET_POSTS = gql`
+export const GET_POSTS = gql`
 	{
 		posts {
 			id
@@ -60,7 +60,7 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 					/>
 				</View>
 				<View>
-					{data.posts.map(post => {
+					{data.posts.map((post) => {
 						return (
 							<View key={post.id}>
 								<Text>

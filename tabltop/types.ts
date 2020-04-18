@@ -1,6 +1,6 @@
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { StackNavigationParamsList } from "App";
+import { RouteProp } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
+import { StackNavigationParamsList } from "App"
 
 export interface User {
     id: string;

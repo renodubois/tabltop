@@ -1,16 +1,16 @@
-import { Modal, View, Text } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import React from "react"
-import Styles from "../styles"
-import SearchIcon from "../icons/SearchIcon"
+import { Modal, View, Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import React from "react";
+import Styles from "../styles";
+import SearchIcon from "../icons/SearchIcon";
 
 interface Props {
-    onDismiss: () => any;
-    onSubmit: () => any;
-    visible: boolean;
+	onDismiss: () => void;
+	onSubmit: () => void;
+	visible: boolean;
 }
 
-const SearchModal = ({ visible, onSubmit, onDismiss }: Props) => {
+const SearchModal = ({ visible, onSubmit, onDismiss }: Props): JSX.Element => {
 	return (
 		<Modal transparent visible={visible}>
 			<View
@@ -19,7 +19,7 @@ const SearchModal = ({ visible, onSubmit, onDismiss }: Props) => {
 					backgroundColor: "rgba(0, 0, 0, 0.6)"
 				}}
 			>
-				<TouchableOpacity onPress={() => onDismiss()}>
+				<TouchableOpacity onPress={(): void => onDismiss()}>
 					<View style={{ width: "100%", height: "100%" }} />
 				</TouchableOpacity>
 			</View>
@@ -28,7 +28,7 @@ const SearchModal = ({ visible, onSubmit, onDismiss }: Props) => {
                             We need something that look like an input box here, 
                             but actually just navigates to a differnt screen.
                             */}
-				<TouchableOpacity onPress={() => onSubmit()}>
+				<TouchableOpacity onPress={(): void => onSubmit()}>
 					<View style={Styles.searchInput}>
 						<SearchIcon color={Styles.searchInputText.color} />
 						<Text style={Styles.searchInputText}>Find a game</Text>
@@ -44,11 +44,11 @@ const SearchModal = ({ visible, onSubmit, onDismiss }: Props) => {
 						fontWeight: "bold"
 					}}
 				>
-                    Search for a game above
+					Search for a game above
 				</Text>
 			</View>
 		</Modal>
-	)
-}
+	);
+};
 
-export default SearchModal
+export default SearchModal;

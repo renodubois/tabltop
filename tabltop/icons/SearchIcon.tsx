@@ -1,10 +1,10 @@
-import React from "react"
-import { Svg, Path } from "react-native-svg"
-import { IconBaseProps } from "../icons"
+import React from "react";
+import { Svg, Path } from "react-native-svg";
+import { IconBaseProps } from "../icons";
 
-type SearchIconProps = IconBaseProps
+type SearchIconProps = IconBaseProps;
 
-function SearchIcon({ color }: SearchIconProps) {
+const SearchIcon = ({ color }: SearchIconProps): JSX.Element => {
 	return (
 		<Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
 			<Path
@@ -15,7 +15,7 @@ function SearchIcon({ color }: SearchIconProps) {
 				strokeLinejoin="round"
 			/>
 		</Svg>
-	)
-}
+	);
+};
 
-export default SearchIcon
+export default SearchIcon;

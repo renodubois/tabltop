@@ -1,12 +1,12 @@
-import React from "react"
-import { Svg, Path } from "react-native-svg"
-import { IconBaseProps } from "../icons"
+import React from "react";
+import { Svg, Path } from "react-native-svg";
+import { IconBaseProps } from "../icons";
 
 interface ArrowRightIconProps extends IconBaseProps {
-    color: string;
+	color: string;
 }
 
-function ArrowRightIcon({ color }: ArrowRightIconProps) {
+const ArrowRightIcon = ({ color }: ArrowRightIconProps): JSX.Element => {
 	return (
 		<Svg viewBox="0 0 100 100" fill="none">
 			<Path
@@ -19,7 +19,7 @@ function ArrowRightIcon({ color }: ArrowRightIconProps) {
 				scaleY={4}
 			/>
 		</Svg>
-	)
-}
+	);
+};
 
-export default ArrowRightIcon
+export default ArrowRightIcon;

@@ -1,12 +1,15 @@
-import React from "react"
-import Svg, { Path, Circle } from "react-native-svg"
-import { IconBaseProps } from "../icons"
+import React from "react";
+import Svg, { Path, Circle } from "react-native-svg";
+import { IconBaseProps } from "../icons";
 
 interface CircleDeleteIconProps extends IconBaseProps {
-    opacity: number;
+	opacity: number;
 }
 
-const CircleDeleteIcon = ({ color, opacity }: CircleDeleteIconProps) => {
+const CircleDeleteIcon = ({
+	color,
+	opacity
+}: CircleDeleteIconProps): JSX.Element => {
 	return (
 		<Svg fill={color} opacity={opacity} viewBox="0 0 20 20">
 			<Circle fill="white" r={8} cx={10} cy={10} />
@@ -16,7 +19,7 @@ const CircleDeleteIcon = ({ color, opacity }: CircleDeleteIconProps) => {
 				clipRule="evenodd"
 			/>
 		</Svg>
-	)
-}
+	);
+};
 
-export default CircleDeleteIcon
+export default CircleDeleteIcon;

@@ -1,28 +1,33 @@
-import React from "react"
-import { Image, Text, View } from "react-native"
-import Autocomplete from "react-native-autocomplete-input"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import Styles from "../styles"
-import { Game } from "../types"
+import React from "react";
+import { Image, Text, View } from "react-native";
+import Autocomplete from "react-native-autocomplete-input";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Styles from "../styles";
+import { Game } from "../types";
 
 interface Props {
-    games: Game[];
-    query: string;
-    onGameSelect: (game: Game) => void;
-    onTextChange: (newQuery: string) => void;
+	games: Game[];
+	query: string;
+	onGameSelect: (game: Game) => void;
+	onTextChange: (newQuery: string) => void;
 }
 
-const findGame = (query: string, games: Game[]) => {
+const findGame = (query: string, games: Game[]): Game[] => {
 	if (query === "") {
-		return []
+		return [];
 	}
 
-	const regex = new RegExp(`${query.trim()}`, "i")
-	return games.filter((game) => game.name.search(regex) >= 0)
-}
+	const regex = new RegExp(`${query.trim()}`, "i");
+	return games.filter((game) => game.name.search(regex) >= 0);
+};
 
-const GameSearch = ({ games, query, onGameSelect, onTextChange }: Props) => {
-	const searchData = findGame(query, games)
+const GameSearch = ({
+	games,
+	query,
+	onGameSelect,
+	onTextChange
+}: Props): JSX.Element => {
+	const searchData = findGame(query, games);
 	return (
 		<View>
 			<Autocomplete
@@ -32,13 +37,13 @@ const GameSearch = ({ games, query, onGameSelect, onTextChange }: Props) => {
 				data={searchData}
 				placeholder="Find a game"
 				placeholderTextColor="#353535"
-				onChangeText={(text) => onTextChange(text)}
-				renderItem={(params) => {
-					const { item, index } = params
+				onChangeText={(text): void => onTextChange(text)}
+				renderItem={(params): JSX.Element => {
+					const { item, index } = params;
 					return (
 						<TouchableOpacity
 							key={index}
-							onPress={() => onGameSelect(item)}
+							onPress={(): void => onGameSelect(item)}
 						>
 							<View style={Styles.itemContainer}>
 								<Image
@@ -50,12 +55,12 @@ const GameSearch = ({ games, query, onGameSelect, onTextChange }: Props) => {
 								</Text>
 							</View>
 						</TouchableOpacity>
-					)
+					);
 				}}
 				style={Styles.gameSearchInput}
 			/>
 		</View>
-	)
-}
+	);
+};
 
-export default GameSearch
+export default GameSearch;

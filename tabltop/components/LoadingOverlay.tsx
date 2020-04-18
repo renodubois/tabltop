@@ -1,11 +1,11 @@
-import React from "react"
-import { View, Text } from "react-native"
-import Styles from "../styles"
+import React from "react";
+import { View, Text } from "react-native";
+import Styles from "../styles";
 
-const LoadingOverlay = ({}) => (
+const LoadingOverlay = (): JSX.Element => (
 	<View style={{ alignSelf: "center", paddingTop: 20 }}>
 		<Text style={Styles.searchFailureText}>Loading...</Text>
 	</View>
-)
+);
 
-export default LoadingOverlay
+export default LoadingOverlay;

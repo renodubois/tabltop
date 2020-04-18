@@ -1,5 +1,4 @@
 import Slider from "@react-native-community/slider";
-import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Image, Text, View } from "react-native";
 import {
@@ -19,19 +18,8 @@ interface CheckInFormData {
 	caption: string;
 	rating: number;
 }
-const GET_GAMES = gql`
-	{
-		games {
-			id
-			name
-			publisher
-			yearPublished
-			thumbnailURL
-		}
-	}
-`;
 
-const CheckIn = ({ navigation, route }: Props) => {
+const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	const [formData, setFormData] = useState<CheckInFormData>({
 		caption: "",
 		rating: 1,
@@ -89,7 +77,7 @@ const CheckIn = ({ navigation, route }: Props) => {
 				<Slider
 					minimumValue={1}
 					maximumValue={5}
-					onValueChange={rating =>
+					onValueChange={(rating): void =>
 						setFormData({ ...formData, rating })
 					}
 					step={0.25}
@@ -123,7 +111,7 @@ const CheckIn = ({ navigation, route }: Props) => {
 	const submitButton = (
 		<View style={{ justifyContent: "flex-end" }}>
 			<TouchableOpacity
-				onPress={() => navigation.navigate("Feed")}
+				onPress={(): void => navigation.navigate("Feed")}
 				style={{
 					width: "100%",
 					// TODO: look into making this a different shade of blue, or another color entirely.

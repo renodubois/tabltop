@@ -4,7 +4,9 @@ import { ApolloLink } from "apollo-link";
 import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http";
 
-export const initApolloClient = (): ApolloClient<NormalizedCacheObject> => {
+export const initApolloClient = (
+	uri = "http://localhost:4000"
+): ApolloClient<NormalizedCacheObject> => {
 	return new ApolloClient({
 		link: ApolloLink.from([
 			onError(({ graphQLErrors, networkError }) => {
@@ -18,7 +20,7 @@ export const initApolloClient = (): ApolloClient<NormalizedCacheObject> => {
 					console.log(`[Network error]: ${networkError}`);
 			}),
 			new HttpLink({
-				uri: "http://localhost:4000"
+				uri
 			})
 		]),
 		cache: new InMemoryCache()

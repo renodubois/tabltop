@@ -42,8 +42,14 @@ const GameSearch = ({
 					const { item, index } = params;
 					return (
 						<TouchableOpacity
+							accessible={true}
+							accessibilityHint={
+								"Selects this game to be used for check-in"
+							}
+							accessibilityRole="button"
 							key={index}
 							onPress={(): void => onGameSelect(item)}
+							testID={`game-search-${item.name.toLowerCase()}`}
 						>
 							<View style={Styles.itemContainer}>
 								<Image

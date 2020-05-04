@@ -8,7 +8,7 @@ import { Button, Text, View } from "react-native";
 import { Post } from "types";
 import SearchModal from "./SearchModal";
 
-interface GetPostsData {
+export interface GetPostsData {
 	posts: Post[];
 }
 export const GET_POSTS = gql`
@@ -62,7 +62,7 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 				<View>
 					{data.posts.map((post) => {
 						return (
-							<View key={post.id}>
+							<View key={post.id} style={{ padding: 10 }}>
 								<Text>
 									{post.author.username} was playing{" "}
 									{post.game.name}

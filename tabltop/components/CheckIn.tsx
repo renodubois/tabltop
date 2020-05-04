@@ -8,22 +8,57 @@ import {
 } from "react-native-gesture-handler";
 import { BaseProps, Game } from "../types";
 import CheckInOptionalItems from "./CheckInOptionalItems";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { GET_POSTS, GetPostsData } from "./Feed";
 
 type Props = BaseProps<"CheckIn">;
 interface GameDataReturn {
 	games: Game[];
 }
 interface CheckInFormData {
-	game?: Game;
+	game: Game;
 	caption: string;
 	rating: number;
 }
+
+const CREATE_POST = gql`
+	mutation CreatePost($post: CreatePostInput!) {
+		createPost(postInfo: $post) {
+			post {
+				id
+				author {
+					username
+				}
+				game {
+					name
+				}
+				caption
+			}
+		}
+	}
+`;
 
 const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	const [formData, setFormData] = useState<CheckInFormData>({
 		caption: "",
 		rating: 1,
 		game: route.params.game
+	});
+	const [createPost] = useMutation(CREATE_POST, {
+		update(cache, { data: { createPost } }) {
+			console.log("create post data", createPost);
+			const data = cache.readQuery<GetPostsData>({ query: GET_POSTS });
+			if (!data) {
+				console.error("NO POST DATA");
+				return;
+			}
+			console.log("example data", data.posts[0]);
+			cache.writeQuery({
+				query: GET_POSTS,
+				data: { posts: data.posts.concat([createPost.post]) }
+			});
+		}
 	});
 	if (!formData.game) {
 		return (
@@ -111,7 +146,18 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	const submitButton = (
 		<View style={{ justifyContent: "flex-end" }}>
 			<TouchableOpacity
-				onPress={(): void => navigation.navigate("Feed")}
+				onPress={(): void => {
+					createPost({
+						variables: {
+							post: {
+								gameId: formData.game.id,
+								caption: formData.caption,
+								authorId: "1" // TODO: put currently logged in user here @tasksforauth
+							}
+						}
+					});
+					navigation.navigate("Feed");
+				}}
 				style={{
 					width: "100%",
 					// TODO: look into making this a different shade of blue, or another color entirely.

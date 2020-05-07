@@ -26,6 +26,18 @@ export const GET_POSTS = gql`
 	}
 `;
 
+const DEBUG_testGame = {
+	id: "266192",
+	name: "Wingspan",
+	publisher: "Stonemaier Games",
+	yearPublished: 2019,
+	thumbnailURL:
+		"https://cf.geekdo-images.com/thumb/img/wvfZwwtcqpth4bgHnh4M-EhUCXg=/fit-in/200x150/pic4458123.jpg",
+	minPlayers: 1,
+	maxPlayers: 5,
+	categories: ["Card Game", "Set Collection"]
+};
+
 interface Props {
 	navigation: StackNavigationProp<StackNavigationParamsList, "Feed">;
 	route: RouteProp<StackNavigationParamsList, "Feed">;
@@ -57,6 +69,15 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 					<Button
 						onPress={(): void => setGameSearchOpen(true)}
 						title="Add a check-in"
+					/>
+					{/* DEBUG: Remove for actual release */}
+					<Button
+						onPress={(): void =>
+							navigation.navigate("CheckIn", {
+								game: DEBUG_testGame
+							})
+						}
+						title="Check in form"
 					/>
 				</View>
 				<View>

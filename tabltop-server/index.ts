@@ -25,6 +25,7 @@ const typeDefs = gql`
         author: User!
         game: Game!
         caption: String
+        rating: String
         taggedUsers: [User]
         # TODO: make a location type
         location: String
@@ -47,6 +48,7 @@ const typeDefs = gql`
         authorId: ID!
         gameId: ID!
         caption: String!
+        rating: String!
         taggedUsers: [ID]
         location: String
         images: [String]
@@ -117,6 +119,7 @@ const Posts = [
         author: Users[0],
         game: Games[0],
         caption: "A test post!",
+        rating: "3.5",
         location: "My House",
         taggedUsers: [],
     },
@@ -125,6 +128,7 @@ const Posts = [
         author: Users[0],
         game: Games[0],
         caption: "Yet another great game of Wingspan",
+        rating: "5",
         location: "My House",
         taggedUsers: [],
     },
@@ -134,6 +138,7 @@ interface CreatePostInput {
     authorId: string;
     gameId: string;
     caption: string;
+    rating: string;
     taggedUsers: string[];
     location: string;
     images: string[];
@@ -164,6 +169,7 @@ const resolvers = {
                 author: Users.find((user) => user.id === postInfo.authorId),
                 caption: postInfo.caption,
                 game: Games.find((game) => game.id === postInfo.gameId),
+                rating: postInfo.rating,
                 location: postInfo.location,
                 taggedUsers: postInfo.taggedUsers.map((id) =>
                     Users.find((user) => user.id === id)

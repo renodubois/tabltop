@@ -34,6 +34,7 @@ const CREATE_POST = gql`
 					name
 				}
 				caption
+				rating
 				taggedUsers {
 					username
 				}
@@ -51,7 +52,6 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	});
 	const [createPost] = useMutation(CREATE_POST, {
 		update(cache, { data: { createPost } }) {
-			console.log("create post data", createPost);
 			const data = cache.readQuery<GetPostsData>({ query: GET_POSTS });
 			if (!data) {
 				console.error("NO POST DATA");
@@ -167,6 +167,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 							post: {
 								gameId: formData.game.id,
 								caption: formData.caption,
+								rating: formData.rating.toString(),
 								authorId: "1", // TODO: put currently logged in user here @tasksforauth
 								taggedUsers: formData.taggedUsers.map(
 									(user) => user.id

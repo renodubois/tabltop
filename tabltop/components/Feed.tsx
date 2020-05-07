@@ -22,6 +22,7 @@ export const GET_POSTS = gql`
 				name
 			}
 			caption
+			rating
 			taggedUsers {
 				username
 			}
@@ -98,6 +99,7 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 										.join(", ")}
 								</Text>
 								<Text>{post.caption}</Text>
+								<Text>{post.rating}</Text>
 							</View>
 						);
 					})}

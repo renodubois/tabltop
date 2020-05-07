@@ -25,6 +25,7 @@ export interface Post {
 	author: User;
 	game: Game;
 	caption: string;
+	rating: string;
 	taggedUsers: User[];
 	location: string;
 	images: string[];

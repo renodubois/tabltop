@@ -15,6 +15,7 @@ interface Props {
 }
 
 const findUser = (query: string, users: User[]): User[] => {
+	// TODO: don't show currently logged in user @tasksforauth
 	if (query === "") {
 		return [];
 	}

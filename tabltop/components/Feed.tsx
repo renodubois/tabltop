@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import gql from "graphql-tag";
 import { StackNavigationParamsList } from "App";
+import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
 import { Post } from "types";
@@ -22,6 +22,9 @@ export const GET_POSTS = gql`
 				name
 			}
 			caption
+			taggedUsers {
+				username
+			}
 		}
 	}
 `;
@@ -87,6 +90,12 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 								<Text>
 									{post.author.username} was playing{" "}
 									{post.game.name}
+								</Text>
+								<Text>
+									Tagged users:{" "}
+									{post.taggedUsers
+										.map((user) => user.username)
+										.join(", ")}
 								</Text>
 								<Text>{post.caption}</Text>
 							</View>

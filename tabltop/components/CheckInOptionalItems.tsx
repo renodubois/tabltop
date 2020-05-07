@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Text, View, Modal } from "react-native";
+import { Modal, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 import UserGroupIcon from "../icons/UserGroupIcon";
 import Styles from "../styles";
-import { BaseProps, User } from "../types";
+import { BaseProps, OptionalItemsFormData } from "../types";
 import UserSearchWrapper from "./UserSearchWrapper";
 
-type Props = BaseProps<"CheckIn">;
+interface Props extends BaseProps<"CheckIn"> {
+	onFormDataChange: (formData: OptionalItemsFormData) => void;
+}
 
 interface FormattedImageObject {
 	id: number;
@@ -16,8 +18,14 @@ interface FormattedImageObject {
 	height: number;
 }
 
-const CheckInOptionalItems = ({ navigation, route }: Props): JSX.Element => {
-	const [taggedFriends, setTaggedFriends] = useState<User[]>([]);
+const CheckInOptionalItems = ({
+	navigation,
+	route,
+	onFormDataChange
+}: Props): JSX.Element => {
+	const [formData, setFormData] = useState<OptionalItemsFormData>({
+		taggedUsers: []
+	});
 	const [showUserSearch, setShowUserSearch] = useState(false);
 
 	const addFriendsButton = (
@@ -59,16 +67,21 @@ const CheckInOptionalItems = ({ navigation, route }: Props): JSX.Element => {
 				</View>
 				<View style={{ backgroundColor: "white" }}>
 					<UserSearchWrapper
-						checkedUsers={taggedFriends}
+						checkedUsers={formData.taggedUsers}
 						onSubmit={(checkedUsers): void => {
-							setTaggedFriends(checkedUsers);
+							const newFormData = {
+								...formData,
+								taggedUsers: checkedUsers
+							};
+							setFormData(newFormData);
+							onFormDataChange(newFormData);
 							setShowUserSearch(false);
 						}}
 					/>
 				</View>
 			</Modal>
 			<View>
-				{taggedFriends.map((user, i) => (
+				{formData.taggedUsers.map((user, i) => (
 					<View key={i}>
 						<Text>{user.username}</Text>
 					</View>

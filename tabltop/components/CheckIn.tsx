@@ -1,4 +1,6 @@
+import { useMutation } from "@apollo/react-hooks";
 import Slider from "@react-native-community/slider";
+import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Image, Text, View } from "react-native";
 import {
@@ -6,20 +8,18 @@ import {
 	TextInput,
 	TouchableOpacity
 } from "react-native-gesture-handler";
-import { BaseProps, Game } from "../types";
+import {
+	BaseProps,
+	CheckInFormData,
+	Game,
+	OptionalItemsFormData
+} from "../types";
 import CheckInOptionalItems from "./CheckInOptionalItems";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-import { GET_POSTS, GetPostsData } from "./Feed";
+import { GetPostsData, GET_POSTS } from "./Feed";
 
 type Props = BaseProps<"CheckIn">;
 interface GameDataReturn {
 	games: Game[];
-}
-interface CheckInFormData {
-	game: Game;
-	caption: string;
-	rating: number;
 }
 
 const CREATE_POST = gql`
@@ -34,6 +34,9 @@ const CREATE_POST = gql`
 					name
 				}
 				caption
+				taggedUsers {
+					username
+				}
 			}
 		}
 	}
@@ -43,7 +46,8 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	const [formData, setFormData] = useState<CheckInFormData>({
 		caption: "",
 		rating: 1,
-		game: route.params.game
+		game: route.params.game,
+		taggedUsers: []
 	});
 	const [createPost] = useMutation(CREATE_POST, {
 		update(cache, { data: { createPost } }) {
@@ -53,13 +57,24 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 				console.error("NO POST DATA");
 				return;
 			}
-			console.log("example data", data.posts[0]);
 			cache.writeQuery({
 				query: GET_POSTS,
 				data: { posts: data.posts.concat([createPost.post]) }
 			});
 		}
 	});
+	const onOptionalItemChange = (
+		optionalFormData: OptionalItemsFormData
+	): void => {
+		const newFormData = { ...formData };
+		for (const [key, data] of Object.entries(optionalFormData)) {
+			// Each key in OptionalItemsFormData will _always_ have a matching key inside of FormData
+			// I don't know how to tell TypeScript this, so I'm just ignoring it.
+			// @ts-ignore
+			newFormData[key] = data;
+		}
+		setFormData(newFormData);
+	};
 	if (!formData.game) {
 		return (
 			<View>
@@ -152,7 +167,10 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 							post: {
 								gameId: formData.game.id,
 								caption: formData.caption,
-								authorId: "1" // TODO: put currently logged in user here @tasksforauth
+								authorId: "1", // TODO: put currently logged in user here @tasksforauth
+								taggedUsers: formData.taggedUsers.map(
+									(user) => user.id
+								)
 							}
 						}
 					});
@@ -239,7 +257,13 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 				</View>
 				{caption}
 				{rating}
-				<CheckInOptionalItems navigation={navigation} route={route} />
+				<CheckInOptionalItems
+					navigation={navigation}
+					route={route}
+					onFormDataChange={(formData): void =>
+						onOptionalItemChange(formData)
+					}
+				/>
 			</ScrollView>
 			{submitButton}
 		</>

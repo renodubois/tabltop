@@ -36,6 +36,7 @@ const typeDefs = gql`
         posts: [Post]
         games: [Game]
         searchGames(query: String): [Game]
+        searchUsers(query: String): [User]
     }
 
     # TODO: for the input here, i think having only IDs given will make this process really slow since we have to do a DB lookup on each one -
@@ -90,6 +91,8 @@ const Users = [
         id: "1",
         username: "reno",
         bio: "tabltop dev person",
+        profilePictureURL:
+            "https://avatars0.githubusercontent.com/u/8910031?s=400&u=10b0121598ef09b8d6beeb897835bd940d0c2a4d&v=4",
     },
     {
         id: "2",
@@ -144,6 +147,11 @@ const resolvers = {
         searchGames: (_: any, args: { query: string }) => {
             return Games.filter((game) =>
                 game.name.toLowerCase().includes(args.query.toLowerCase())
+            );
+        },
+        searchUsers: (_: any, args: { query: string }) => {
+            return Users.filter((user) =>
+                user.username.toLowerCase().includes(args.query.toLowerCase())
             );
         },
     },

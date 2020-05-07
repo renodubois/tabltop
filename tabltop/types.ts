@@ -34,3 +34,13 @@ export interface BaseProps<ScreenName extends keyof StackNavigationParamsList> {
 	navigation: StackNavigationProp<StackNavigationParamsList, ScreenName>;
 	route: RouteProp<StackNavigationParamsList, ScreenName>;
 }
+
+export interface CheckInFormData {
+	game: Game;
+	caption: string;
+	rating: number;
+	taggedUsers: User[];
+}
+export interface OptionalItemsFormData {
+	taggedUsers: User[];
+}

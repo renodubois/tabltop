@@ -165,7 +165,9 @@ const resolvers = {
                 caption: postInfo.caption,
                 game: Games.find((game) => game.id === postInfo.gameId),
                 location: postInfo.location,
-                taggedUsers: postInfo.taggedUsers,
+                taggedUsers: postInfo.taggedUsers.map((id) =>
+                    Users.find((user) => user.id === id)
+                ),
             };
             Posts.push(newPost);
             return { post: newPost };

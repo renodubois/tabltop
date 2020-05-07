@@ -239,7 +239,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 				</View>
 				{caption}
 				{rating}
-				<CheckInOptionalItems />
+				<CheckInOptionalItems navigation={navigation} route={route} />
 			</ScrollView>
 			{submitButton}
 		</>

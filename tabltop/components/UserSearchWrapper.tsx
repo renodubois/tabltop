@@ -7,10 +7,10 @@ import Styles from "../styles";
 import ErrorOverlay from "./ErrorOverlay";
 import LoadingOverlay from "./LoadingOverlay";
 import UserSearch from "./UserSearch";
-import UserSearchNew from "./UserSearchNew";
 
 interface Props {
-	onUserSelect: (user: User) => void;
+	checkedUsers: User[];
+	onSubmit: (checkedUsers: User[]) => void;
 }
 interface UserDataReturn {
 	searchUsers: User[];
@@ -25,7 +25,7 @@ export const GET_USERS = gql`
 	}
 `;
 
-const UserSearchWrapper = ({ onUserSelect }: Props): JSX.Element => {
+const UserSearchWrapper = ({ checkedUsers, onSubmit }: Props): JSX.Element => {
 	const [query, setQuery] = useState<string>("");
 	const { loading, error, data } = useQuery<UserDataReturn>(GET_USERS, {
 		variables: { query }
@@ -48,10 +48,11 @@ const UserSearchWrapper = ({ onUserSelect }: Props): JSX.Element => {
 	return (
 		<>
 			<View style={{ backgroundColor: "white" }}>
-				<UserSearchNew
+				<UserSearch
+					currentlyCheckedUsers={checkedUsers}
 					users={data && data.searchUsers ? data.searchUsers : []}
 					query={query}
-					onUserSelect={(user: User): void => onUserSelect(user)}
+					onSubmit={(checkedUsers) => onSubmit(checkedUsers)}
 					onTextChange={(newQuery: string): void =>
 						setQuery(newQuery)
 					}

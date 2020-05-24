@@ -92,10 +92,5 @@
 		"useTabs": true,
 		"semi": true,
 		"arrowParens": "always"
-	},
-	"rnpm": {
-		"assets": [
-			"./assets/fonts"
-		]
 	}
 }

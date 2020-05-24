@@ -3,10 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>UIAppFonts</key>
-	<array>
-		<string>FontAwesome.ttf</string>
-		<string>Entypo.ttf</string>
-	</array>
+	<array/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

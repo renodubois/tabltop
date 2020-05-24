@@ -22,7 +22,28 @@ const props = {
 		profilePictureURL:
 			"https://avatars0.githubusercontent.com/u/8910031?s=400&u=10b0121598ef09b8d6beeb897835bd940d0c2a4d&v=4"
 	},
-	taggedUsers: [{ username: "user1" }, { username: "user2" }],
+	taggedUsers: [
+		{
+			username: "user1",
+			profilePictureURL: "https://www.placecage.com/100/100"
+		},
+		{
+			username: "user2",
+			profilePictureURL: "https://www.placecage.com/g/100/100"
+		},
+		{
+			username: "user2",
+			profilePictureURL: "https://www.fillmurray.com/100/100"
+		},
+		{
+			username: "user2",
+			profilePictureURL: "https://www.fillmurray.com/100/100"
+		},
+		{
+			username: "user2",
+			profilePictureURL: "https://www.placecage.com/g/100/100"
+		}
+	],
 	rating: 4.5,
 	date: "6h",
 	caption:

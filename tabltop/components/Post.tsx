@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import StarRating from "react-native-star-rating";
 import { Game } from "../types";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // TODO: make these actual types
 interface Props {
@@ -21,6 +22,63 @@ interface Props {
 }
 
 const MAX_TITLE_LENGTH = 24;
+
+const generateTaggedUsers = (users: any[]): JSX.Element[] => {
+	const photoElements: JSX.Element[] = [];
+	if (users.length <= 0) {
+		return photoElements;
+	}
+	let photosToGenerate = users.length;
+	if (users.length > 3) {
+		photosToGenerate = 3;
+	}
+	for (let i = 0; i < photosToGenerate; i++) {
+		// TODO: figure out how to overlap TouchableOpacity components
+		// TODO: tapping on an icon of a user should navigate to their profile
+		photoElements.push(
+			<TouchableOpacity
+				style={{
+					width: 40,
+					height: 40,
+					borderRadius: 25,
+					overflow: "visible"
+				}}
+				key={i}
+				onPress={() => null}
+			>
+				<Image
+					source={{ uri: users[i].profilePictureURL }}
+					style={{
+						width: 40,
+						height: 40,
+						borderRadius: 25
+					}}
+				/>
+			</TouchableOpacity>
+		);
+	}
+	if (users.length > 3) {
+		photoElements.push(
+			// TODO: tapping here should open a modal with all tagged users
+			<TouchableOpacity
+				style={{
+					height: 40,
+					width: 40,
+					borderRadius: 25,
+					backgroundColor: "#9AA5B1",
+					justifyContent: "center",
+					alignItems: "center"
+				}}
+				onPress={() => null}
+			>
+				<Text style={{ fontWeight: "bold" }}>
+					+{users.length - photosToGenerate}
+				</Text>
+			</TouchableOpacity>
+		);
+	}
+	return photoElements;
+};
 
 const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 	let gameName = game.name;
@@ -60,34 +118,39 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 			<View
 				style={{
 					flexDirection: "row",
+					justifyContent: "space-between",
 					alignItems: "center",
 					paddingBottom: 15
 				}}
 			>
-				<Image
-					source={{ uri: author.profilePictureURL }}
-					style={{
-						width: 40,
-						height: 40,
-						borderRadius: 25,
-						marginRight: 10
-					}}
-				/>
-				<View style={{ marginRight: 8 }}>
-					<Text
+				<View style={{ flexDirection: "row", alignItems: "center" }}>
+					<Image
+						source={{ uri: author.profilePictureURL }}
 						style={{
-							fontSize: 16,
-							fontWeight: "bold"
+							width: 40,
+							height: 40,
+							borderRadius: 25,
+							marginRight: 10
 						}}
-					>
-						{author.username}
+					/>
+					<View style={{ marginRight: 8 }}>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: "bold"
+							}}
+						>
+							{author.username}
+						</Text>
+					</View>
+					{/* TODO: fix line height issue here, this slightly not center aligned */}
+					<Text style={{ color: "#3E4C59", lineHeight: 0 }}>
+						{date}
 					</Text>
 				</View>
-				{/* TODO: fix line height issue here, this slightly not center aligned */}
-				<Text style={{ color: "#3E4C59", lineHeight: 0 }}>{date}</Text>
-				{/* {taggedUsers.map((user, i) => (
-						<Text key={i}>{user.username}</Text>
-					))} */}
+				<View style={{ flexDirection: "row" }}>
+					{generateTaggedUsers(taggedUsers)}
+				</View>
 			</View>
 			<View style={{ flexDirection: "row", paddingBottom: 15 }}>
 				<View style={titleContainerStyle}>

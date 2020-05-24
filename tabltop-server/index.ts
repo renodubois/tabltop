@@ -136,7 +136,7 @@ interface CreatePostInput {
 // ACTUAL SERVER CODE
 const resolvers = {
     Query: {
-        posts: () => Posts,
+        posts: () => Posts.sort((a, b) => b.date - a.date),
         games: () => Games,
         searchGames: (_: any, args: { query: string }) => {
             return Games.filter((game) =>
@@ -166,6 +166,7 @@ const resolvers = {
                 ),
             };
             Posts.push(newPost);
+            console.log("Posts", Posts);
             return { post: newPost };
         },
     },

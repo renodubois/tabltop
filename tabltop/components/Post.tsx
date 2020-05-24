@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Requireable } from "react";
 import {
 	Text,
 	View,
@@ -8,6 +8,7 @@ import {
 	ViewStyle
 } from "react-native";
 import StarRating from "react-native-star-rating";
+import { Rating } from "react-native-ratings";
 import { Game, User } from "../types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -70,6 +71,7 @@ const generateTaggedUsers = (users: User[]): JSX.Element[] => {
 					alignItems: "center"
 				}}
 				onPress={() => null}
+				key={3}
 			>
 				<Text style={{ fontWeight: "bold" }}>
 					+{users.length - photosToGenerate}
@@ -88,13 +90,15 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 		fontWeight: "bold",
 		fontFamily: "YoungSerif"
 	};
-	const ratingContainerStyle: StyleProp<ViewStyle> = {
+	const ratingContainerStyle: any = {
 		width: 75,
-		alignSelf: "center"
+		marginTop: 5,
+		marginLeft: 10,
+		alignSelf: "flex-start"
 	};
 	const titleContainerStyle: StyleProp<ViewStyle> = {
 		flex: 1,
-		flexDirection: "row"
+		flexDirection: "column"
 	};
 	if (gameName.length > MAX_TITLE_LENGTH) {
 		gameName = gameName.substr(0, MAX_TITLE_LENGTH) + "...";
@@ -109,7 +113,6 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 			style={{
 				backgroundColor: "#E6F6FF",
 				borderRadius: 5,
-				padding: 20,
 				shadowColor: "#000",
 				shadowOffset: { height: 5, width: 5 },
 				shadowOpacity: 0.2,
@@ -118,74 +121,126 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 		>
 			<View
 				style={{
-					flexDirection: "row",
-					justifyContent: "space-between",
-					alignItems: "center",
-					paddingBottom: 15
+					padding: 20
 				}}
 			>
-				<View style={{ flexDirection: "row", alignItems: "center" }}>
-					<Image
-						source={{ uri: author.profilePictureURL }}
-						style={{
-							width: 40,
-							height: 40,
-							borderRadius: 25,
-							marginRight: 10
-						}}
-					/>
-					<View style={{ marginRight: 8 }}>
-						<Text
+				<View
+					style={{
+						flexDirection: "row",
+						justifyContent: "space-between",
+						alignItems: "center",
+						paddingBottom: 15
+					}}
+				>
+					<View
+						style={{ flexDirection: "row", alignItems: "center" }}
+					>
+						<Image
+							source={{ uri: author.profilePictureURL }}
 							style={{
-								fontSize: 16,
-								fontWeight: "bold"
+								width: 40,
+								height: 40,
+								borderRadius: 25,
+								marginRight: 10
 							}}
-						>
-							{author.username}
+						/>
+						<View style={{ marginRight: 8 }}>
+							<Text
+								style={{
+									fontSize: 16,
+									fontWeight: "bold"
+								}}
+							>
+								{author.username}
+							</Text>
+						</View>
+						{/* TODO: fix line height issue here, this slightly not center aligned */}
+						<Text style={{ color: "#3E4C59", lineHeight: 0 }}>
+							{date}
 						</Text>
 					</View>
-					{/* TODO: fix line height issue here, this slightly not center aligned */}
-					<Text style={{ color: "#3E4C59", lineHeight: 0 }}>
-						{date}
-					</Text>
+					<View style={{ flexDirection: "row" }}>
+						{generateTaggedUsers(taggedUsers)}
+					</View>
+				</View>
+				<View style={{ flexDirection: "row", paddingBottom: 15 }}>
+					<View style={titleContainerStyle}>
+						<View style={{ marginRight: 10 }}>
+							<Text style={gameStyles}>{gameName}</Text>
+						</View>
+						<Rating
+							style={ratingContainerStyle}
+							readonly
+							startingValue={rating}
+							imageSize={20}
+							tintColor="#E6F6FF"
+						/>
+					</View>
 				</View>
 				<View style={{ flexDirection: "row" }}>
-					{generateTaggedUsers(taggedUsers)}
-				</View>
-			</View>
-			<View style={{ flexDirection: "row", paddingBottom: 15 }}>
-				<View style={titleContainerStyle}>
-					<View style={{ marginRight: 10 }}>
-						<Text style={gameStyles}>{gameName}</Text>
+					<View style={{ flex: 4 }}>
+						<Text style={{ fontStyle: "italic" }}>{caption}</Text>
 					</View>
-					<StarRating
-						containerStyle={ratingContainerStyle}
-						disabled
-						rating={rating}
-						starSize={20}
-						fullStarColor="#FFCA1A"
-					/>
+					{/* TODO: revisit where the icon is positioned on long names */}
+					<View style={{ flex: 1, marginLeft: 10, marginTop: -30 }}>
+						<Image
+							source={{ uri: game.thumbnailURL }}
+							style={{
+								height: 70,
+								width: 70,
+								borderRadius: 5,
+								marginRight: 20
+							}}
+						/>
+					</View>
 				</View>
 			</View>
-			<View style={{ flexDirection: "row" }}>
-				<View style={{ flex: 4 }}>
-					<Text style={{ fontStyle: "italic" }}>{caption}</Text>
-				</View>
-				{/* TODO: revisit where the icon is positioned on long names */}
-				<View style={{ flex: 1, marginLeft: 10, marginTop: -30 }}>
-					<Image
-						source={{ uri: game.thumbnailURL }}
+			<View
+				style={{
+					flexDirection: "row",
+					marginTop: 20,
+					alignItems: "stretch",
+					justifyContent: "center"
+				}}
+			>
+				<View
+					style={{
+						flex: 1,
+						borderColor: "#9AA5B1",
+						borderTopWidth: 1,
+						borderRightWidth: 1
+					}}
+				>
+					<TouchableOpacity
+						onPress={() => console.log("like")}
 						style={{
-							height: 70,
-							width: 70,
-							borderRadius: 5,
-							marginRight: 20
+							alignItems: "center",
+							justifyContent: "center",
+							padding: 10
 						}}
-					/>
+					>
+						<Text>Like</Text>
+					</TouchableOpacity>
+				</View>
+				<View
+					style={{
+						flex: 1,
+						borderColor: "#9AA5B1",
+						borderTopWidth: 1
+					}}
+				>
+					<TouchableOpacity
+						onPress={() => console.log("comment")}
+						style={{
+							alignItems: "center",
+							justifyContent: "center",
+							padding: 10
+						}}
+					>
+						<Text>Comment</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
-			{/* Photos */}
-			{/* Interaction (like, comment etc) */}
 		</View>
 	);
 };

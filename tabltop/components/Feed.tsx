@@ -4,7 +4,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigationParamsList } from "App";
 import gql from "graphql-tag";
 import React, { useState } from "react";
-import { Button, Text, View } from "react-native";
+import { Button, Text, View, ScrollView } from "react-native";
 import { Post as PostType } from "types";
 import SearchModal from "./SearchModal";
 import Post from "./Post";
@@ -62,8 +62,7 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 		console.error(error);
 		return <Text>Error loading data</Text>;
 	}
-	if (data && data.posts.length > 0) {
-		const posts = data.posts.reverse();
+	if (data) {
 		return (
 			<>
 				<SearchModal
@@ -90,17 +89,19 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 						title="Check in form"
 					/>
 				</View>
-				<View>
-					{posts.map((post) => {
+
+				<ScrollView style={{ padding: 10, paddingBottom: 0 }}>
+					{data.posts.map((post) => {
 						return (
-							<Post
-								key={post.id}
-								{...post}
-								rating={parseFloat(post.rating)}
-							/>
+							<View key={post.id} style={{ marginBottom: 15 }}>
+								<Post
+									{...post}
+									rating={parseFloat(post.rating)}
+								/>
+							</View>
 						);
 					})}
-				</View>
+				</ScrollView>
 			</>
 		);
 	}

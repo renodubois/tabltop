@@ -63,7 +63,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 			}
 			cache.writeQuery({
 				query: GET_POSTS,
-				data: { posts: data.posts.concat([createPost.post]) }
+				data: { posts: [createPost.post, ...data.posts] }
 			});
 		}
 	});

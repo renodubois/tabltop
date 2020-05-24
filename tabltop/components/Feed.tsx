@@ -5,11 +5,12 @@ import { StackNavigationParamsList } from "App";
 import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
-import { Post } from "types";
+import { Post as PostType } from "types";
 import SearchModal from "./SearchModal";
+import Post from "./Post";
 
 export interface GetPostsData {
-	posts: Post[];
+	posts: PostType[];
 }
 export const GET_POSTS = gql`
 	{
@@ -17,14 +18,18 @@ export const GET_POSTS = gql`
 			id
 			author {
 				username
+				profilePictureURL
 			}
 			game {
 				name
+				thumbnailURL
 			}
 			caption
+			date
 			rating
 			taggedUsers {
 				username
+				profilePictureURL
 			}
 		}
 	}
@@ -57,7 +62,8 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 		console.error(error);
 		return <Text>Error loading data</Text>;
 	}
-	if (data) {
+	if (data && data.posts.length > 0) {
+		const posts = data.posts.reverse();
 		return (
 			<>
 				<SearchModal
@@ -85,29 +91,24 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 					/>
 				</View>
 				<View>
-					{data.posts.map((post) => {
+					{posts.map((post) => {
 						return (
-							<View key={post.id} style={{ padding: 10 }}>
-								<Text>
-									{post.author.username} was playing{" "}
-									{post.game.name}
-								</Text>
-								<Text>
-									Tagged users:{" "}
-									{post.taggedUsers
-										.map((user) => user.username)
-										.join(", ")}
-								</Text>
-								<Text>{post.caption}</Text>
-								<Text>{post.rating}</Text>
-							</View>
+							<Post
+								key={post.id}
+								{...post}
+								rating={parseFloat(post.rating)}
+							/>
 						);
 					})}
 				</View>
 			</>
 		);
 	}
-	return <Text>No data found?</Text>;
+	return (
+		<Text style={{ textAlign: "center", fontSize: 18 }}>
+			No posts yet. Try following more users to fill up your feed!
+		</Text>
+	);
 };
 
 export default Feed;

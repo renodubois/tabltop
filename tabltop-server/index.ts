@@ -1,6 +1,8 @@
 import { ApolloServer, gql } from "apollo-server";
 
 const typeDefs = gql`
+    scalar Timestamp
+
     type User {
         id: ID!
         username: String!
@@ -26,6 +28,7 @@ const typeDefs = gql`
         game: Game!
         caption: String
         rating: String
+        date: String
         taggedUsers: [User]
         # TODO: make a location type
         location: String
@@ -49,6 +52,7 @@ const typeDefs = gql`
         gameId: ID!
         caption: String!
         rating: String!
+        date: String!
         taggedUsers: [ID]
         location: String
         images: [String]
@@ -100,45 +104,30 @@ const Users = [
         id: "2",
         username: "nikki",
         bio: "number 1 tabltop supporter",
+        profilePictureURL: "https://www.placecage.com/100/100",
     },
     {
         id: "3",
         username: "kochan",
         bio: "@adam",
+        profilePictureURL: "https://www.placecage.com/g/100/100",
     },
     {
         id: "4",
         username: "MopMan",
         bio: "slugma",
+        profilePictureURL: "https://www.fillmurray.com/100/100",
     },
 ];
 
-const Posts = [
-    {
-        id: "1",
-        author: Users[0],
-        game: Games[0],
-        caption: "A test post!",
-        rating: "3.5",
-        location: "My House",
-        taggedUsers: [],
-    },
-    {
-        id: "2",
-        author: Users[0],
-        game: Games[0],
-        caption: "Yet another great game of Wingspan",
-        rating: "5",
-        location: "My House",
-        taggedUsers: [],
-    },
-];
+const Posts = [];
 
 interface CreatePostInput {
     authorId: string;
     gameId: string;
     caption: string;
     rating: string;
+    date: string;
     taggedUsers: string[];
     location: string;
     images: string[];
@@ -165,10 +154,11 @@ const resolvers = {
             const { postInfo } = args;
             const lastPost = Posts[Posts.length - 1];
             const newPost = {
-                id: (parseInt(lastPost.id) + 1).toString(),
+                id: lastPost ? (parseInt(lastPost.id) + 1).toString() : 1,
                 author: Users.find((user) => user.id === postInfo.authorId),
                 caption: postInfo.caption,
                 game: Games.find((game) => game.id === postInfo.gameId),
+                date: postInfo.date,
                 rating: postInfo.rating,
                 location: postInfo.location,
                 taggedUsers: postInfo.taggedUsers.map((id) =>

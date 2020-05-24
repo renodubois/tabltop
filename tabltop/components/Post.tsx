@@ -8,22 +8,22 @@ import {
 	ViewStyle
 } from "react-native";
 import StarRating from "react-native-star-rating";
-import { Game } from "../types";
+import { Game, User } from "../types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 // TODO: make these actual types
 interface Props {
 	game: Game;
-	author: any;
+	author: User;
 	date: string;
 	rating: number;
-	taggedUsers: any[];
+	taggedUsers: User[];
 	caption: string;
 }
 
 const MAX_TITLE_LENGTH = 24;
 
-const generateTaggedUsers = (users: any[]): JSX.Element[] => {
+const generateTaggedUsers = (users: User[]): JSX.Element[] => {
 	const photoElements: JSX.Element[] = [];
 	if (users.length <= 0) {
 		return photoElements;
@@ -81,6 +81,7 @@ const generateTaggedUsers = (users: any[]): JSX.Element[] => {
 };
 
 const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
+	console.log(game);
 	let gameName = game.name;
 	const gameStyles: StyleProp<TextStyle> = {
 		fontSize: 24,

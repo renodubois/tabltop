@@ -26,6 +26,7 @@ export interface Post {
 	game: Game;
 	caption: string;
 	rating: string;
+	date: string;
 	taggedUsers: User[];
 	location: string;
 	images: string[];

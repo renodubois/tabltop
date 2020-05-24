@@ -29,14 +29,18 @@ const CREATE_POST = gql`
 				id
 				author {
 					username
+					profilePictureURL
 				}
 				game {
 					name
+					thumbnailURL
 				}
 				caption
+				date
 				rating
 				taggedUsers {
 					username
+					profilePictureURL
 				}
 			}
 		}
@@ -168,6 +172,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 								gameId: formData.game.id,
 								caption: formData.caption,
 								rating: formData.rating.toString(),
+								date: Date.now().toString(),
 								authorId: "1", // TODO: put currently logged in user here @tasksforauth
 								taggedUsers: formData.taggedUsers.map(
 									(user) => user.id

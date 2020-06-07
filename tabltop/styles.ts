@@ -1,5 +1,13 @@
 import { StyleSheet } from "react-native";
 
+export const commonStackNavigatorStyles = {
+	headerBackTitle: "Back",
+	headerStyle: {
+		backgroundColor: "#1c329c"
+	},
+	headerTintColor: "#ffffff"
+};
+
 const Styles = StyleSheet.create({
 	checkInOptionalItemWrapper: {
 		flexDirection: "row",

@@ -28,6 +28,7 @@ const GameSearch = ({
 	onTextChange
 }: Props): JSX.Element => {
 	const searchData = findGame(query, games);
+	// TODO: display a placeholder message before we search
 	return (
 		<View>
 			<Autocomplete

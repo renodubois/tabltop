@@ -1,14 +1,19 @@
 import { ApolloProvider } from "@apollo/react-hooks";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { Theme } from "@react-navigation/native/lib/typescript/src/types";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import Feed from "./components/Feed";
-import CheckIn from "./components/CheckIn";
-import { Theme } from "@react-navigation/native/lib/typescript/src/types";
-import { StatusBar } from "react-native";
-import GameSearchWrapper from "./components/GameSearchWrapper";
-import { Game } from "./types";
+import { Text, StatusBar, StyleProp, TextStyle } from "react-native";
 import { initApolloClient } from "./apollo";
+import ActivityScreen from "./screens/ActivityScreen";
+import FeedScreen from "./screens/FeedScreen";
+import NewPostScreen from "./screens/NewPostScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import SearchScreen from "./screens/SearchScreen";
+import { Game } from "./types";
+import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 export type StackNavigationParamsList = {
 	Feed: undefined;
@@ -17,7 +22,7 @@ export type StackNavigationParamsList = {
 };
 
 const client = initApolloClient();
-const Stack = createStackNavigator<StackNavigationParamsList>();
+const Tab = createBottomTabNavigator();
 
 const AppTheme: Theme = {
 	colors: {
@@ -35,28 +40,64 @@ const App = (): JSX.Element => {
 		<ApolloProvider client={client}>
 			<StatusBar barStyle="light-content" />
 			<NavigationContainer theme={AppTheme}>
-				<Stack.Navigator
+				<Tab.Navigator
 					initialRouteName="Feed"
-					screenOptions={{
-						headerBackTitle: "Back",
-						headerStyle: {
-							backgroundColor: "#1c329c"
-						},
-						headerTintColor: "#ffffff"
-					}}
+					screenOptions={({ route }) => ({
+						tabBarIcon: ({ focused, color, size }) => {
+							let iconName = "";
+							let useCommunityIcon = false;
+							const iconStyles: StyleProp<TextStyle> = {};
+							// NOTE: I really don't love these icons, but short of rolling my own icon set,
+							// I can't figure out a good way to have filled/outline states that look good,
+							// so I'm giving up on that for the time being, and I'll revisit it at a later date.
+							if (route.name === "Feed") {
+								useCommunityIcon = true;
+								if (focused) {
+									iconName = "home-outline";
+								} else {
+									iconName = "home-outline";
+								}
+							} else if (route.name === "Search") {
+								iconName = "search";
+							} else if (route.name === "NewPost") {
+								if (focused) {
+									iconName = "add-circle";
+								} else {
+									iconName = "add-circle-outline";
+								}
+							} else if (route.name === "Activity") {
+								if (focused) {
+									iconName = "notifications";
+								} else {
+									iconName = "notifications-none";
+								}
+							} else if (route.name === "Profile") {
+								if (focused) {
+									iconName = "person";
+								} else {
+									iconName = "person-outline";
+								}
+							}
+							const iconProps = {
+								name: iconName,
+								size: 36,
+								color: color,
+								style: iconStyles
+							};
+							if (useCommunityIcon) {
+								return <MaterialCommunityIcon {...iconProps} />;
+							}
+							return <Icon {...iconProps} />;
+						}
+					})}
+					tabBarOptions={{ showLabel: false }}
 				>
-					<Stack.Screen name="Feed" component={Feed} />
-					<Stack.Screen
-						name="CheckIn"
-						component={CheckIn}
-						options={{ title: "Check In" }}
-					/>
-					<Stack.Screen
-						name="GameSearch"
-						component={GameSearchWrapper}
-						options={{ title: "Find a game" }}
-					/>
-				</Stack.Navigator>
+					<Tab.Screen name="Feed" component={FeedScreen} />
+					<Tab.Screen name="Search" component={SearchScreen} />
+					<Tab.Screen name="NewPost" component={NewPostScreen} />
+					<Tab.Screen name="Activity" component={ActivityScreen} />
+					<Tab.Screen name="Profile" component={ProfileScreen} />
+				</Tab.Navigator>
 			</NavigationContainer>
 		</ApolloProvider>
 	);

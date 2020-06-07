@@ -188,8 +188,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 					// It doesn't look _great_ with the dark blue header
 					backgroundColor: "#47A3F3",
 					paddingTop: 22,
-					// TODO: this should be variable based on iPhone notches
-					paddingBottom: 36
+					paddingBottom: 22
 				}}
 			>
 				<Text

@@ -7,7 +7,6 @@ import {
 	TextStyle,
 	ViewStyle
 } from "react-native";
-import StarRating from "react-native-star-rating";
 import { Rating } from "react-native-ratings";
 import { Game, User } from "../types";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -23,6 +22,36 @@ interface Props {
 }
 
 const MAX_TITLE_LENGTH = 24;
+
+const generateRelativeTime = (timestamp: number): string => {
+	const now = Date.now();
+	let diff = now - timestamp;
+	diff = diff / 1000;
+	let value = "";
+	let unit = "";
+	if (diff < 60) {
+		return "now";
+	} else if (diff < 3600) {
+		value = Math.round(diff / 60).toString();
+		unit = "m";
+	} else if (diff < 3600 * 24) {
+		value = Math.round(diff / 3600).toString();
+		unit = "h";
+	} else if (diff < 3600 * 24 * 14) {
+		value = Math.round(diff / (3600 * 24)).toString();
+		unit = "d";
+	} else if (diff < 3600 * 24 * 7 * 4) {
+		value = Math.round(diff / (3600 * 24 * 7)).toString();
+		unit = "w";
+	} else if (diff < 3600 * 24 * 7 * 52) {
+		value = Math.round(diff / (3600 * 24 * 30)).toString();
+		unit = "mo";
+	} else {
+		value = Math.round(diff / (3600 * 24 * 365)).toString();
+		unit = "y";
+	}
+	return `${value}${unit}`;
+};
 
 const generateTaggedUsers = (users: User[]): JSX.Element[] => {
 	const photoElements: JSX.Element[] = [];
@@ -156,7 +185,7 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 						</View>
 						{/* TODO: fix line height issue here, this slightly not center aligned */}
 						<Text style={{ color: "#3E4C59", lineHeight: 0 }}>
-							{date}
+							{generateRelativeTime(parseInt(date))}
 						</Text>
 					</View>
 					<View style={{ flexDirection: "row" }}>

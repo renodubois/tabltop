@@ -165,11 +165,21 @@ const computeFollowers = (userID: string): any[] => {
 // ACTUAL SERVER CODE
 const resolvers = {
     Query: {
-        posts: () => Posts.sort((a, b) => b.date - a.date),
+        posts: () => [...Posts].sort((a, b) => b.date - a.date),
         postsByUser: (_: any, args: { userID: string }) =>
-            Posts.filter((post) => post.author.id === args.userID).sort(
-                (a, b) => b.date - a.date
-            ),
+            Posts.filter((post) => {
+                if (post.author.id === args.userID) {
+                    return true;
+                }
+                if (
+                    post.taggedUsers.findIndex(
+                        (user) => user.id === args.userID
+                    ) >= 0
+                ) {
+                    return true;
+                }
+                return false;
+            }).sort((a, b) => b.date - a.date),
         games: () => Games,
         user: (_: any, args: { userID: string }) => {
             const user = Users.find((user) => user.id === args.userID);
@@ -195,7 +205,7 @@ const resolvers = {
             const { postInfo } = args;
             const lastPost = Posts[Posts.length - 1];
             const newPost = {
-                id: lastPost ? (parseInt(lastPost.id) + 1).toString() : 1,
+                id: lastPost ? (parseInt(lastPost.id) + 1).toString() : "1",
                 author: Users.find((user) => user.id === postInfo.authorId),
                 caption: postInfo.caption,
                 game: Games.find((game) => game.id === postInfo.gameId),

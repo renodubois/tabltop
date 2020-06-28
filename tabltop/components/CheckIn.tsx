@@ -8,22 +8,11 @@ import {
 	TextInput,
 	TouchableOpacity
 } from "react-native-gesture-handler";
-import {
-	BaseProps,
-	CheckInFormData,
-	Game,
-	OptionalItemsFormData,
-	Post,
-	User
-} from "../types";
+import { updatePostCacheAfterPostInsert } from "../cache";
+import { BaseProps, CheckInFormData, OptionalItemsFormData } from "../types";
 import CheckInOptionalItems from "./CheckInOptionalItems";
-import { GetPostsData, GET_POSTS } from "./Feed";
-import { ProfileDataReturn, GET_PROFILE_DATA } from "./ProfileWrapper";
 
 type Props = BaseProps<"CheckIn">;
-interface GameDataReturn {
-	games: Game[];
-}
 
 const CREATE_POST = gql`
 	mutation CreatePost($post: CreatePostInput!) {
@@ -52,22 +41,6 @@ const CREATE_POST = gql`
 	}
 `;
 
-const writePostToProfileCache = (
-	cache: any,
-	userID: string,
-	post: Post,
-	existingData: any
-) => {
-	cache.writeQuery({
-		query: GET_PROFILE_DATA,
-		variables: { userID: userID },
-		data: {
-			user: existingData.user,
-			postsByUser: [post, ...existingData.postsByUser]
-		}
-	});
-};
-
 const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	const [formData, setFormData] = useState<CheckInFormData>({
 		caption: "",
@@ -77,57 +50,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 	});
 	const [createPost] = useMutation(CREATE_POST, {
 		update(cache, { data: { createPost } }) {
-			const data = cache.readQuery<GetPostsData>({ query: GET_POSTS });
-			if (!data) {
-				console.error("NO POST DATA");
-				return;
-			}
-			try {
-				const authorProfileFeedData = cache.readQuery<
-					ProfileDataReturn
-				>({
-					query: GET_PROFILE_DATA,
-					variables: { userID: createPost.post.author.id }
-				});
-				if (authorProfileFeedData) {
-					writePostToProfileCache(
-						cache,
-						createPost.post.author.id,
-						createPost.post,
-						authorProfileFeedData
-					);
-				}
-			} catch (e) {
-				console.log("no author query yet");
-			}
-			if (createPost.post.taggedUsers.length > 0) {
-				createPost.post.taggedUsers.forEach((user: User) => {
-					console.log("user id", user.id);
-					try {
-						const userFeedData = cache.readQuery<ProfileDataReturn>(
-							{
-								query: GET_PROFILE_DATA,
-								variables: { userID: user.id }
-							}
-						);
-						if (userFeedData) {
-							writePostToProfileCache(
-								cache,
-								user.id,
-								createPost.post,
-								userFeedData
-							);
-						}
-					} catch (err) {
-						console.log("no cache for that profile");
-					}
-				});
-			}
-			cache.writeQuery({
-				query: GET_POSTS,
-				data: { posts: [createPost.post, ...data.posts] }
-			});
-			// Also need to update various other feeds where this exists, if applicable
+			updatePostCacheAfterPostInsert(cache, createPost.post);
 		}
 	});
 	const onOptionalItemChange = (

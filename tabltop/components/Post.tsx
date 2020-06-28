@@ -8,11 +8,12 @@ import {
 	ViewStyle
 } from "react-native";
 import { Rating } from "react-native-ratings";
-import { Game, User } from "../types";
+import { Game, User, BaseProps } from "../types";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { navigate } from "@storybook/addon-links/dist/preview";
 
 // TODO: make these actual types
-interface Props {
+interface Props extends BaseProps<"Feed"> {
 	game: Game;
 	author: User;
 	date: string;
@@ -53,7 +54,7 @@ const generateRelativeTime = (timestamp: number): string => {
 	return `${value}${unit}`;
 };
 
-const generateTaggedUsers = (users: User[]): JSX.Element[] => {
+const generateTaggedUsers = (users: User[], navigation: any): JSX.Element[] => {
 	const photoElements: JSX.Element[] = [];
 	if (users.length <= 0) {
 		return photoElements;
@@ -74,7 +75,9 @@ const generateTaggedUsers = (users: User[]): JSX.Element[] => {
 					overflow: "visible"
 				}}
 				key={i}
-				onPress={() => null}
+				onPress={() =>
+					navigation.navigate("Profile", { userID: users[i].id })
+				}
 			>
 				<Image
 					source={{ uri: users[i].profilePictureURL }}
@@ -111,8 +114,15 @@ const generateTaggedUsers = (users: User[]): JSX.Element[] => {
 	return photoElements;
 };
 
-const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
-	console.log(game);
+const Post = ({
+	game,
+	author,
+	date,
+	rating,
+	taggedUsers,
+	caption,
+	navigation
+}: Props) => {
 	let gameName = game.name;
 	const gameStyles: StyleProp<TextStyle> = {
 		fontSize: 24,
@@ -164,16 +174,37 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 					<View
 						style={{ flexDirection: "row", alignItems: "center" }}
 					>
-						<Image
-							source={{ uri: author.profilePictureURL }}
+						<TouchableOpacity
 							style={{
 								width: 40,
 								height: 40,
 								borderRadius: 25,
-								marginRight: 10
+								marginRight: 10,
+								overflow: "visible"
 							}}
-						/>
-						<View style={{ marginRight: 8 }}>
+							onPress={() =>
+								navigation.navigate("Profile", {
+									userID: author.id
+								})
+							}
+						>
+							<Image
+								source={{ uri: author.profilePictureURL }}
+								style={{
+									width: 40,
+									height: 40,
+									borderRadius: 25
+								}}
+							/>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={{ marginRight: 8 }}
+							onPress={() =>
+								navigation.navigate("Profile", {
+									userID: author.id
+								})
+							}
+						>
 							<Text
 								style={{
 									fontSize: 16,
@@ -182,14 +213,14 @@ const Post = ({ game, author, date, rating, taggedUsers, caption }: Props) => {
 							>
 								{author.username}
 							</Text>
-						</View>
+						</TouchableOpacity>
 						{/* TODO: fix line height issue here, this slightly not center aligned */}
 						<Text style={{ color: "#3E4C59", lineHeight: 0 }}>
 							{generateRelativeTime(parseInt(date))}
 						</Text>
 					</View>
 					<View style={{ flexDirection: "row" }}>
-						{generateTaggedUsers(taggedUsers)}
+						{generateTaggedUsers(taggedUsers, navigation)}
 					</View>
 				</View>
 				<View style={{ flexDirection: "row", paddingBottom: 15 }}>

@@ -18,6 +18,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 export type StackNavigationParamsList = {
 	Feed: undefined;
 	CheckIn: { game: Game; userID: string };
+	Profile: { userID: string };
 	GameSearch: undefined;
 };
 

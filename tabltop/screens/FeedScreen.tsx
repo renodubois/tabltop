@@ -4,6 +4,7 @@ import CheckIn from "../components/CheckIn";
 import Feed from "../components/Feed";
 import GameSearchWrapper from "../components/GameSearchWrapper";
 import { commonStackNavigatorStyles } from "../styles";
+import ProfileWrapper from "../components/ProfileWrapper";
 
 const FeedNavigator = createStackNavigator();
 const FeedScreen = ({}) => {
@@ -20,6 +21,7 @@ const FeedScreen = ({}) => {
 				component={GameSearchWrapper}
 				options={{ title: "Find a game" }}
 			/>
+			<FeedNavigator.Screen name="Profile" component={ProfileWrapper} />
 		</FeedNavigator.Navigator>
 	);
 };

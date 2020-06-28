@@ -54,7 +54,7 @@ interface Props {
 	route: RouteProp<StackNavigationParamsList, "Feed">;
 }
 
-const Feed = ({ navigation }: Props): JSX.Element => {
+const Feed = ({ navigation, route }: Props): JSX.Element => {
 	const { loading, error, data } = useQuery<GetPostsData>(GET_POSTS);
 	const [gameSearchOpen, setGameSearchOpen] = useState<boolean>(false);
 	if (loading) {
@@ -113,6 +113,8 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 								<Post
 									{...post}
 									rating={parseFloat(post.rating)}
+									navigation={navigation}
+									route={route}
 								/>
 							</View>
 						);

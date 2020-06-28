@@ -1,12 +1,12 @@
 import React from "react";
 import Profile from "./Profile";
-import { User, Post } from "../types";
+import { User, Post, BaseProps } from "../types";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import LoadingOverlay from "./LoadingOverlay";
 import ErrorOverlay from "./ErrorOverlay";
 
-interface Props {
+interface Props extends BaseProps<"Profile"> {
 	userID: string;
 }
 export interface ProfileDataReturn {
@@ -50,11 +50,11 @@ export const GET_PROFILE_DATA = gql`
 	}
 `;
 
-const ProfileWrapper = ({ userID }: Props) => {
+const ProfileWrapper = ({ route }: Props) => {
 	const { loading, error, data } = useQuery<ProfileDataReturn>(
 		GET_PROFILE_DATA,
 		{
-			variables: { userID }
+			variables: { userID: route.params.userID }
 		}
 	);
 	if (loading) {

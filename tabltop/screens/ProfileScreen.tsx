@@ -10,9 +10,11 @@ const ProfileScreen = ({}) => {
 	// TODO: default the userID to the currently logged in user @tasksforauth
 	return (
 		<ProfileNavigator.Navigator screenOptions={commonStackNavigatorStyles}>
-			<ProfileNavigator.Screen name="Profile">
-				{() => <ProfileWrapper userID="1" />}
-			</ProfileNavigator.Screen>
+			<ProfileNavigator.Screen
+				name="Profile"
+				component={ProfileWrapper}
+				initialParams={{ userID: "1" }}
+			/>
 		</ProfileNavigator.Navigator>
 	);
 };

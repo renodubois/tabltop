@@ -8,6 +8,7 @@ const typeDefs = gql`
         username: String!
         profilePictureURL: String
         bio: String
+        followers: [User]
         # TODO: add more things here when we figure them out
     }
 
@@ -39,6 +40,7 @@ const typeDefs = gql`
     type Query {
         posts: [Post]
         games: [Game]
+        user(userID: String): User
         searchGames(query: String): [Game]
         searchUsers(query: String): [User]
     }
@@ -120,6 +122,14 @@ const Users = [
     },
 ];
 
+const Followage = [
+    ["1", "2"],
+    ["2", "1"],
+    ["3", "1"],
+    ["4", "1"],
+    ["1", "3"],
+    ["1", "4"],
+];
 const Posts = [];
 
 interface CreatePostInput {
@@ -133,11 +143,37 @@ interface CreatePostInput {
     images: string[];
 }
 
+const getUserByID = (userID: string) => {
+    return Users.find((user) => user.id === userID);
+};
+
+const computeFollowers = (userID: string): any[] => {
+    const returnValue = [];
+    Followage.forEach((followData: string[]) => {
+        if (followData[1] === userID) {
+            const follower = getUserByID(followData[0]);
+            if (!follower) {
+                console.error("User not found");
+            }
+            returnValue.push(follower);
+        }
+    });
+    return returnValue;
+};
+
 // ACTUAL SERVER CODE
 const resolvers = {
     Query: {
         posts: () => Posts.sort((a, b) => b.date - a.date),
         games: () => Games,
+        user: (_: any, args: { userID: string }) => {
+            const user = Users.find((user) => user.id === args.userID);
+            // Compute follwers
+            // TODO: Actually type the server file
+            // @ts-ignore
+            user.followers = computeFollowers(user.id);
+            return user;
+        },
         searchGames: (_: any, args: { query: string }) => {
             return Games.filter((game) =>
                 game.name.toLowerCase().includes(args.query.toLowerCase())

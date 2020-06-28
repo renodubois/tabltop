@@ -7,6 +7,7 @@ export interface User {
 	username: string;
 	profilePictureURL: string;
 	bio: string;
+	followers?: User[];
 }
 
 export interface Game {

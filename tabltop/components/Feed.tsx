@@ -17,6 +17,7 @@ export const GET_POSTS = gql`
 		posts {
 			id
 			author {
+				id
 				username
 				profilePictureURL
 			}
@@ -28,6 +29,7 @@ export const GET_POSTS = gql`
 			date
 			rating
 			taggedUsers {
+				id
 				username
 				profilePictureURL
 			}

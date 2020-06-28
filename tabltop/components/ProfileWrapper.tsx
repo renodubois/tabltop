@@ -9,14 +9,13 @@ import ErrorOverlay from "./ErrorOverlay";
 interface Props {
 	userID: string;
 }
-interface UserDataReturn {
+export interface ProfileDataReturn {
 	user: User;
 	postsByUser: Post[];
 }
-interface FeedDataReturn {}
 
-const GET_PROFILE_DATA = gql`
-	query GetUser($userID: String) {
+export const GET_PROFILE_DATA = gql`
+	query GetProfileData($userID: String) {
 		user(userID: $userID) {
 			id
 			username
@@ -31,6 +30,7 @@ const GET_PROFILE_DATA = gql`
 		postsByUser(userID: $userID) {
 			id
 			author {
+				id
 				username
 				profilePictureURL
 			}
@@ -42,6 +42,7 @@ const GET_PROFILE_DATA = gql`
 			date
 			rating
 			taggedUsers {
+				id
 				username
 				profilePictureURL
 			}
@@ -50,7 +51,7 @@ const GET_PROFILE_DATA = gql`
 `;
 
 const ProfileWrapper = ({ userID }: Props) => {
-	const { loading, error, data } = useQuery<UserDataReturn>(
+	const { loading, error, data } = useQuery<ProfileDataReturn>(
 		GET_PROFILE_DATA,
 		{
 			variables: { userID }
@@ -65,7 +66,12 @@ const ProfileWrapper = ({ userID }: Props) => {
 	if (!data) {
 		return <ErrorOverlay error="Couldn't fetch data for profile" />;
 	}
-	return <Profile user={data.user} posts={data.postsByUser} />;
+	return (
+		<Profile
+			user={data.user}
+			posts={data.postsByUser ? data.postsByUser : []}
+		/>
+	);
 };
 
 export default ProfileWrapper;

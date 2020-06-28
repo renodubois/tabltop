@@ -173,7 +173,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 								caption: formData.caption,
 								rating: formData.rating.toString(),
 								date: Date.now().toString(),
-								authorId: "1", // TODO: put currently logged in user here @tasksforauth
+								authorId: route.params.userID, // TODO: put currently logged in user here @tasksforauth
 								taggedUsers: formData.taggedUsers.map(
 									(user) => user.id
 								)

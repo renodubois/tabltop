@@ -74,7 +74,7 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 					visible={gameSearchOpen}
 				/>
 				<View>
-					{/* The text for this button kind of sucks, think about what to change that to */}
+					{/* DEBUG: Remove for actual release */}
 					<Button
 						onPress={(): void => setGameSearchOpen(true)}
 						title="Add a check-in"
@@ -83,10 +83,24 @@ const Feed = ({ navigation }: Props): JSX.Element => {
 					<Button
 						onPress={(): void =>
 							navigation.navigate("CheckIn", {
-								game: DEBUG_testGame
+								game: DEBUG_testGame,
+								userID: "1"
 							})
 						}
 						title="Check in form"
+					/>
+					{/* DEBUG: Remove for actual release */}
+					<Button
+						onPress={(): void =>
+							navigation.navigate("CheckIn", {
+								game: DEBUG_testGame,
+								// Makes a post from someone that isn't my user
+								userID: Math.floor(
+									Math.random() * 3 + 2
+								).toString()
+							})
+						}
+						title="Diff user"
 					/>
 				</View>
 

@@ -51,7 +51,7 @@ const GameSearchWrapper = ({ navigation }: Props): JSX.Element => {
 					games={data && data.searchGames ? data.searchGames : []}
 					query={query}
 					onGameSelect={(game: Game): void =>
-						navigation.navigate("CheckIn", { game })
+						navigation.navigate("CheckIn", { game, userID: "1" })
 					}
 					onTextChange={(newQuery: string): void =>
 						setQuery(newQuery)

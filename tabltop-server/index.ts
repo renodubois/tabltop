@@ -39,6 +39,7 @@ const typeDefs = gql`
 
     type Query {
         posts: [Post]
+        postsByUser(userID: String): [Post]
         games: [Game]
         user(userID: String): User
         searchGames(query: String): [Game]
@@ -165,6 +166,10 @@ const computeFollowers = (userID: string): any[] => {
 const resolvers = {
     Query: {
         posts: () => Posts.sort((a, b) => b.date - a.date),
+        postsByUser: (_: any, args: { userID: string }) =>
+            Posts.filter((post) => post.author.id === args.userID).sort(
+                (a, b) => b.date - a.date
+            ),
         games: () => Games,
         user: (_: any, args: { userID: string }) => {
             const user = Users.find((user) => user.id === args.userID);

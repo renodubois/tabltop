@@ -1,6 +1,6 @@
 import React from "react";
 import Profile from "./Profile";
-import { User } from "../types";
+import { User, Post } from "../types";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import LoadingOverlay from "./LoadingOverlay";
@@ -11,9 +11,11 @@ interface Props {
 }
 interface UserDataReturn {
 	user: User;
+	postsByUser: Post[];
 }
+interface FeedDataReturn {}
 
-export const GET_USER = gql`
+const GET_PROFILE_DATA = gql`
 	query GetUser($userID: String) {
 		user(userID: $userID) {
 			id
@@ -26,13 +28,34 @@ export const GET_USER = gql`
 				profilePictureURL
 			}
 		}
+		postsByUser(userID: $userID) {
+			id
+			author {
+				username
+				profilePictureURL
+			}
+			game {
+				name
+				thumbnailURL
+			}
+			caption
+			date
+			rating
+			taggedUsers {
+				username
+				profilePictureURL
+			}
+		}
 	}
 `;
 
 const ProfileWrapper = ({ userID }: Props) => {
-	const { loading, error, data } = useQuery<UserDataReturn>(GET_USER, {
-		variables: { userID }
-	});
+	const { loading, error, data } = useQuery<UserDataReturn>(
+		GET_PROFILE_DATA,
+		{
+			variables: { userID }
+		}
+	);
 	if (loading) {
 		return <LoadingOverlay />;
 	}
@@ -40,9 +63,9 @@ const ProfileWrapper = ({ userID }: Props) => {
 		return <ErrorOverlay error={error} />;
 	}
 	if (!data) {
-		return <ErrorOverlay error="Couldn't find user" />;
+		return <ErrorOverlay error="Couldn't fetch data for profile" />;
 	}
-	return <Profile user={data.user} />;
+	return <Profile user={data.user} posts={data.postsByUser} />;
 };
 
 export default ProfileWrapper;

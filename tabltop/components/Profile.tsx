@@ -1,13 +1,15 @@
 import React from "react";
-import { User } from "../types";
-import { View, Text, Image } from "react-native";
+import { User, Post as PostType } from "../types";
+import { View, Text, Image, ScrollView } from "react-native";
 import Feed from "./Feed";
+import Post from "./Post";
 
 interface ProfileProps {
 	user: User;
+	posts: PostType[];
 }
 
-const Profile = ({ user }: ProfileProps) => {
+const Profile = ({ user, posts }: ProfileProps) => {
 	return (
 		<>
 			<View
@@ -39,7 +41,18 @@ const Profile = ({ user }: ProfileProps) => {
 				) : null}
 			</View>
 			<View style={{ flex: 2 }}>
-				<Text>FEED PLACEHOLDER</Text>
+				<ScrollView style={{ padding: 10, paddingBottom: 0 }}>
+					{posts.map((post) => {
+						return (
+							<View key={post.id} style={{ marginBottom: 15 }}>
+								<Post
+									{...post}
+									rating={parseFloat(post.rating)}
+								/>
+							</View>
+						);
+					})}
+				</ScrollView>
 			</View>
 		</>
 	);

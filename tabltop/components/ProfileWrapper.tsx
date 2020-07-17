@@ -50,7 +50,7 @@ export const GET_PROFILE_DATA = gql`
 	}
 `;
 
-const ProfileWrapper = ({ route }: Props) => {
+const ProfileWrapper = ({ route, navigation }: Props) => {
 	const { loading, error, data } = useQuery<ProfileDataReturn>(
 		GET_PROFILE_DATA,
 		{
@@ -70,6 +70,8 @@ const ProfileWrapper = ({ route }: Props) => {
 		<Profile
 			user={data.user}
 			posts={data.postsByUser ? data.postsByUser : []}
+			navigation={navigation}
+			route={route}
 		/>
 	);
 };

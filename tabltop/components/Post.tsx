@@ -1,19 +1,18 @@
-import React, { Requireable } from "react";
+import React from "react";
 import {
-	Text,
-	View,
 	Image,
 	StyleProp,
+	Text,
 	TextStyle,
+	View,
 	ViewStyle
 } from "react-native";
-import { Rating } from "react-native-ratings";
-import { Game, User, BaseProps } from "../types";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { navigate } from "@storybook/addon-links/dist/preview";
+import { Rating } from "react-native-ratings";
+import { BaseProps, Game, User } from "../types";
 
 // TODO: make these actual types
-interface Props extends BaseProps<"Feed"> {
+interface Props extends BaseProps<"Feed" | "Profile"> {
 	game: Game;
 	author: User;
 	date: string;
@@ -76,7 +75,7 @@ const generateTaggedUsers = (users: User[], navigation: any): JSX.Element[] => {
 				}}
 				key={i}
 				onPress={() =>
-					navigation.navigate("Profile", { userID: users[i].id })
+					navigation.push("Profile", { userID: users[i].id })
 				}
 			>
 				<Image
@@ -183,7 +182,7 @@ const Post = ({
 								overflow: "visible"
 							}}
 							onPress={() =>
-								navigation.navigate("Profile", {
+								navigation.push("Profile", {
 									userID: author.id
 								})
 							}
@@ -200,7 +199,7 @@ const Post = ({
 						<TouchableOpacity
 							style={{ marginRight: 8 }}
 							onPress={() =>
-								navigation.navigate("Profile", {
+								navigation.push("Profile", {
 									userID: author.id
 								})
 							}

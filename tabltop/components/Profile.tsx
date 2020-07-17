@@ -1,15 +1,15 @@
 import React from "react";
-import { User, Post as PostType } from "../types";
+import { User, Post as PostType, BaseProps } from "../types";
 import { View, Text, Image, ScrollView } from "react-native";
 import Feed from "./Feed";
 import Post from "./Post";
 
-interface ProfileProps {
+interface ProfileProps extends BaseProps<"Profile"> {
 	user: User;
 	posts: PostType[];
 }
 
-const Profile = ({ user, posts }: ProfileProps) => {
+const Profile = ({ user, posts, navigation, route }: ProfileProps) => {
 	return (
 		<>
 			<View
@@ -48,6 +48,8 @@ const Profile = ({ user, posts }: ProfileProps) => {
 								<Post
 									{...post}
 									rating={parseFloat(post.rating)}
+									navigation={navigation}
+									route={route}
 								/>
 							</View>
 						);

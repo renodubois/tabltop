@@ -3,8 +3,9 @@ import React from "react";
 import { Text, View } from "react-native";
 import { commonStackNavigatorStyles } from "../styles";
 import ProfileWrapper from "../components/ProfileWrapper";
+import { StackNavigationParamsList } from "../App";
 
-const ProfileNavigator = createStackNavigator();
+const ProfileNavigator = createStackNavigator<StackNavigationParamsList>();
 
 const ProfileScreen = ({}) => {
 	// TODO: default the userID to the currently logged in user @tasksforauth

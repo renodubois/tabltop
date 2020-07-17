@@ -2,9 +2,10 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Theme } from "@react-navigation/native/lib/typescript/src/types";
-import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { Text, StatusBar, StyleProp, TextStyle } from "react-native";
+import { StatusBar, StyleProp, TextStyle } from "react-native";
+import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { initApolloClient } from "./apollo";
 import ActivityScreen from "./screens/ActivityScreen";
 import FeedScreen from "./screens/FeedScreen";
@@ -12,8 +13,6 @@ import NewPostScreen from "./screens/NewPostScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SearchScreen from "./screens/SearchScreen";
 import { Game } from "./types";
-import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 export type StackNavigationParamsList = {
 	Feed: undefined;

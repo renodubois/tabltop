@@ -38,10 +38,12 @@ const EditProfileWrapper = ({ route, navigation }: Props) => {
 	if (loading) {
 		return <LoadingOverlay />;
 	}
+	console.log("data", data);
+	console.log("error", error);
 	if (error) {
 		return <ErrorOverlay error={error} />;
 	}
-	if (!data) {
+	if (!data || !data.user) {
 		return <ErrorOverlay error="Couldn't fetch data for profile" />;
 	}
 	return (

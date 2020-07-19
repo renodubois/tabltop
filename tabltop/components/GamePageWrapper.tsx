@@ -19,6 +19,7 @@ const GET_GAME_BY_ID = gql`
 			categories
 			minPlayers
 			maxPlayers
+			averageRating
 		}
 	}
 `;

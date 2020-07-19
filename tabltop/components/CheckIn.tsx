@@ -29,6 +29,7 @@ const CREATE_POST = gql`
 					id
 					name
 					thumbnailURL
+					averageRating
 				}
 				caption
 				date

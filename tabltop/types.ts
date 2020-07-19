@@ -19,6 +19,7 @@ export interface Game {
 	minPlayers: number;
 	maxPlayers: number;
 	categories: string[];
+	averageRating: string;
 }
 
 export interface Post {

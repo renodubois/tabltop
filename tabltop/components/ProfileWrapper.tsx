@@ -35,8 +35,10 @@ export const GET_PROFILE_DATA = gql`
 				profilePictureURL
 			}
 			game {
+				id
 				name
 				thumbnailURL
+				averageRating
 			}
 			caption
 			date
@@ -54,7 +56,7 @@ const ProfileWrapper = ({ route, navigation }: Props) => {
 	const { loading, error, data } = useQuery<ProfileDataReturn>(
 		GET_PROFILE_DATA,
 		{
-			variables: { userID: route.params.userID }
+			variables: { userID: route.params.userID },
 		}
 	);
 	if (loading) {

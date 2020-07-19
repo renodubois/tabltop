@@ -21,6 +21,7 @@ const typeDefs = gql`
         minPlayers: Int
         maxPlayers: Int
         categories: [String!]
+        averageRating: String
     }
 
     type Post {
@@ -106,6 +107,19 @@ const Games = [
     },
 ];
 
+interface Rating {
+    rawTotalScore: number;
+    numRatings: number;
+    averageRating: number;
+}
+const Ratings: { [gameID: string]: Rating } = {
+    "266192": {
+        rawTotalScore: 0,
+        numRatings: 0,
+        averageRating: 0,
+    },
+};
+
 const Users = [
     {
         id: "1",
@@ -161,6 +175,14 @@ interface EditProfileInput {
     photo: string;
 }
 
+const formatGame = (game: any) => {
+    game.averageRating = 0;
+    if (game.id in Ratings) {
+        game.averageRating = Ratings[game.id].averageRating.toString();
+    }
+    return game;
+};
+
 const getUserByID = (userID: string) => {
     return Users.find((user) => user.id === userID);
 };
@@ -197,10 +219,16 @@ const resolvers = {
                 }
                 return false;
             }).sort((a, b) => b.date - a.date),
-        games: () => Games,
+        games: () => {
+            const returnData: any[] = [];
+            Games.forEach((game) => {
+                returnData.push(formatGame(game));
+            });
+            return returnData;
+        },
         gameByID: (_: any, args: { gameID: string }) => {
             const game = Games.find((game) => game.id === args.gameID);
-            return game ? game : null;
+            return game ? formatGame(game) : null;
         },
         user: (_: any, args: { userID: string }) => {
             const user = Users.find((user) => user.id === args.userID);
@@ -228,11 +256,33 @@ const resolvers = {
         createPost: (_: any, args: { postInfo: CreatePostInput }) => {
             const { postInfo } = args;
             const lastPost = Posts[Posts.length - 1];
+            // Update ratings
+            let currentRating: Rating;
+            if (postInfo.gameId in Ratings) {
+                currentRating = Ratings[postInfo.gameId];
+            } else {
+                currentRating = {
+                    averageRating: 0,
+                    rawTotalScore: 0,
+                    numRatings: 0,
+                };
+            }
+            currentRating.numRatings++;
+            currentRating.rawTotalScore += parseFloat(postInfo.rating);
+            currentRating.averageRating =
+                currentRating.rawTotalScore / currentRating.numRatings;
+            Ratings[postInfo.gameId] = currentRating;
+
+            const game = Games.find((game) => game.id === postInfo.gameId);
+            if (!game) {
+                console.error("Couldn't find a game");
+            }
+
             const newPost = {
                 id: lastPost ? (parseInt(lastPost.id) + 1).toString() : "1",
                 author: Users.find((user) => user.id === postInfo.authorId),
                 caption: postInfo.caption,
-                game: Games.find((game) => game.id === postInfo.gameId),
+                game: formatGame(game),
                 date: postInfo.date,
                 rating: postInfo.rating,
                 location: postInfo.location,
@@ -240,6 +290,7 @@ const resolvers = {
                     Users.find((user) => user.id === id)
                 ),
             };
+
             Posts.push(newPost);
             return { post: newPost };
         },

@@ -7,12 +7,18 @@ interface ErrorOverlayProps {
 	error?: string | ApolloError;
 }
 
-const ErrorOverlay = ({ error }: ErrorOverlayProps): JSX.Element => (
-	<View style={{ alignSelf: "center", paddingTop: 20 }}>
-		<Text style={Styles.searchFailureText}>
-			Encountered an error: {error}
-		</Text>
-	</View>
-);
+const ErrorOverlay = ({ error }: ErrorOverlayProps): JSX.Element => {
+	if (typeof error !== "string") {
+		console.error(error);
+		error = "Some other error that wasn't a string";
+	}
+	return (
+		<View style={{ alignSelf: "center", paddingTop: 20 }}>
+			<Text style={Styles.searchFailureText}>
+				Encountered an error: {error}
+			</Text>
+		</View>
+	);
+};
 
 export default ErrorOverlay;

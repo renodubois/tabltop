@@ -5,6 +5,7 @@ import Feed from "../components/Feed";
 import GameSearchWrapper from "../components/GameSearchWrapper";
 import { commonStackNavigatorStyles } from "../styles";
 import ProfileWrapper from "../components/ProfileWrapper";
+import EditProfileWrapper from "../components/EditProfileWrapper";
 
 const FeedNavigator = createStackNavigator();
 const FeedScreen = ({}) => {
@@ -22,6 +23,11 @@ const FeedScreen = ({}) => {
 				options={{ title: "Find a game" }}
 			/>
 			<FeedNavigator.Screen name="Profile" component={ProfileWrapper} />
+			<FeedNavigator.Screen
+				name="EditProfile"
+				component={EditProfileWrapper}
+				options={{ title: "Edit Profile" }}
+			/>
 		</FeedNavigator.Navigator>
 	);
 };

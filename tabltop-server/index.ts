@@ -244,6 +244,7 @@ const resolvers = {
             if (indexOfUser >= 0) {
                 // Make edits to user
                 Users[indexOfUser].bio = profileInfo.bio;
+                Users[indexOfUser].profilePictureURL = profileInfo.photo;
 
                 return { user: Users[indexOfUser] };
             }

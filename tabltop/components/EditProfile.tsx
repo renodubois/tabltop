@@ -1,9 +1,17 @@
-import React, { useState } from "react";
-import { BaseProps, User } from "../types";
-import { Pressable, View, Text, TextInput, PlatformColor } from "react-native";
-import Styles from "../styles";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import React, { useState } from "react";
+import {
+	Image,
+	PlatformColor,
+	Pressable,
+	Text,
+	TextInput,
+	View,
+} from "react-native";
+import Styles from "../styles";
+import { BaseProps, User } from "../types";
+import { onAddImagePress } from "../util/image_picker";
 
 interface Props extends BaseProps<"EditProfile"> {
 	user: User;
@@ -36,9 +44,33 @@ const EditProfile = ({ navigation, user }: Props) => {
 		bio: user.bio,
 		photo: user.profilePictureURL,
 	});
+
 	const [editProfile] = useMutation(EDIT_PROFILE);
 	return (
 		<View style={{ paddingTop: 40 }}>
+			<View>
+				<Text style={Styles.inputLabel}>Profile Picture</Text>
+				{/* TODO: check for a11y requirements here */}
+				<View style={{ padding: 20 }}>
+					<Pressable
+						onPress={async () => {
+							onAddImagePress((image) =>
+								setFormData({ ...formData, photo: image.path })
+							);
+						}}
+					>
+						<Image
+							source={{ uri: formData.photo }}
+							style={{
+								width: 150,
+								height: 150,
+								borderRadius: 100,
+								alignSelf: "center",
+							}}
+						/>
+					</Pressable>
+				</View>
+			</View>
 			<View>
 				<Text style={Styles.inputLabel}>Your Bio</Text>
 				<TextInput

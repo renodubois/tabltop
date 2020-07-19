@@ -38,7 +38,6 @@ export const GET_PROFILE_DATA = gql`
 				id
 				name
 				thumbnailURL
-				averageRating
 			}
 			caption
 			date

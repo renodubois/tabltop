@@ -1,14 +1,14 @@
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
-import { BaseProps, Game } from "../types";
+import { BaseProps, Game, Post } from "../types";
 import ErrorOverlay from "./ErrorOverlay";
 import GamePage from "./GamePage";
 import LoadingOverlay from "./LoadingOverlay";
 
 interface Props extends BaseProps<"GamePage"> {}
 
-const GET_GAME_BY_ID = gql`
+export const GET_GAME_PAGE_DATA = gql`
 	query GetGameById($gameID: String) {
 		gameByID(gameID: $gameID) {
 			id
@@ -21,18 +21,43 @@ const GET_GAME_BY_ID = gql`
 			maxPlayers
 			averageRating
 		}
+		postsByGame(gameID: $gameID) {
+			id
+			author {
+				id
+				username
+				profilePictureURL
+			}
+			game {
+				id
+				name
+				thumbnailURL
+			}
+			caption
+			date
+			rating
+			taggedUsers {
+				id
+				username
+				profilePictureURL
+			}
+		}
 	}
 `;
 
-interface GameDataReturn {
+export interface GameDataReturn {
 	gameByID: Game;
+	postsByGame: Post[];
 }
 
 const GamePageWrapper = ({ navigation, route }: Props) => {
 	console.log(route.params.gameID);
-	const { loading, error, data } = useQuery<GameDataReturn>(GET_GAME_BY_ID, {
-		variables: { gameID: route.params.gameID },
-	});
+	const { loading, error, data } = useQuery<GameDataReturn>(
+		GET_GAME_PAGE_DATA,
+		{
+			variables: { gameID: route.params.gameID },
+		}
+	);
 	if (loading) {
 		return <LoadingOverlay />;
 	}
@@ -42,9 +67,13 @@ const GamePageWrapper = ({ navigation, route }: Props) => {
 	if (!data || (data && !data.gameByID)) {
 		return <ErrorOverlay error="Couldn't fetch data for game" />;
 	}
-	console.log("DATA HERE", data);
 	return (
-		<GamePage game={data.gameByID} navigation={navigation} route={route} />
+		<GamePage
+			game={data.gameByID}
+			posts={data.postsByGame}
+			navigation={navigation}
+			route={route}
+		/>
 	);
 };
 

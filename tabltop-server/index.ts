@@ -41,6 +41,7 @@ const typeDefs = gql`
     type Query {
         posts: [Post]
         postsByUser(userID: String): [Post]
+        postsByGame(gameID: String): [Post]
         games: [Game]
         gameByID(gameID: String): Game
         user(userID: String): User
@@ -215,6 +216,13 @@ const resolvers = {
                         (user) => user.id === args.userID
                     ) >= 0
                 ) {
+                    return true;
+                }
+                return false;
+            }).sort((a, b) => b.date - a.date),
+        postsByGame: (_: any, args: { gameID: string }) =>
+            Posts.filter((post) => {
+                if (post.game.id === args.gameID) {
                     return true;
                 }
                 return false;

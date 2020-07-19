@@ -13,7 +13,7 @@ import { Rating } from "react-native-ratings";
 import { BaseProps, Game, User } from "../types";
 
 // TODO: make these actual types
-interface Props extends BaseProps<"Feed" | "Profile"> {
+interface Props extends BaseProps<"Feed" | "Profile" | "GamePage"> {
 	game: Game;
 	author: User;
 	date: string;

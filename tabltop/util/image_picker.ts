@@ -17,37 +17,33 @@ enum addPhotoActionSheetResults {
 }
 
 // TODO: convert to async/await
-const openPhotoPicker = (onPhotoLoad: (image: ImageObject) => void) => {
-	ImagePicker.openPicker(imagePickerOptions).then(
-		(image) => {
-			if (Array.isArray(image)) {
-				return;
-			}
-			onPhotoLoad(image);
-		},
-		(reason) => {
-			if (reason.message === USER_CANCELLED_IMAGE_SELECTION_MESSAGE) {
-				return;
-			} else {
-				console.error(reason);
-			}
+const openPhotoPicker = async (onPhotoLoad: (image: ImageObject) => void) => {
+	try {
+		const image = await ImagePicker.openPicker(imagePickerOptions);
+		if (Array.isArray(image)) {
+			return;
 		}
-	);
-};
-
-const openCamera = (onPhotoLoad: (image: ImageObject) => void) => {
-	ImagePicker.openCamera(imagePickerOptions).then(
-		(image) => {
-			if (Array.isArray(image)) {
-				return;
-			}
-			onPhotoLoad(image);
-		},
-		(reason) => {
-			// TODO: update this when able to test on real device
+		onPhotoLoad(image);
+	} catch (reason) {
+		if (reason.message === USER_CANCELLED_IMAGE_SELECTION_MESSAGE) {
+			return;
+		} else {
 			console.error(reason);
 		}
-	);
+	}
+};
+
+const openCamera = async (onPhotoLoad: (image: ImageObject) => void) => {
+	try {
+		const image = await ImagePicker.openCamera(imagePickerOptions);
+		if (Array.isArray(image)) {
+			return;
+		}
+		onPhotoLoad(image);
+	} catch (reason) {
+		// TODO: update this when able to test on real device
+		console.error(reason);
+	}
 };
 
 export const onAddImagePress = (onPhotoLoad: (image: ImageObject) => void) => {

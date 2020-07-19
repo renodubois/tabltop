@@ -26,6 +26,7 @@ const CREATE_POST = gql`
 					profilePictureURL
 				}
 				game {
+					id
 					name
 					thumbnailURL
 				}

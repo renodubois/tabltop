@@ -6,6 +6,7 @@ import GameSearchWrapper from "../components/GameSearchWrapper";
 import { commonStackNavigatorStyles } from "../styles";
 import ProfileWrapper from "../components/ProfileWrapper";
 import EditProfileWrapper from "../components/EditProfileWrapper";
+import GamePageWrapper from "../components/GamePageWrapper";
 
 const FeedNavigator = createStackNavigator();
 const FeedScreen = ({}) => {
@@ -28,6 +29,8 @@ const FeedScreen = ({}) => {
 				component={EditProfileWrapper}
 				options={{ title: "Edit Profile" }}
 			/>
+			{/* TODO: make title of this screen the same as the game name (or don't have one at all) */}
+			<FeedNavigator.Screen name="GamePage" component={GamePageWrapper} />
 		</FeedNavigator.Navigator>
 	);
 };

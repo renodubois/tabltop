@@ -241,7 +241,6 @@ const resolvers = {
                 ),
             };
             Posts.push(newPost);
-            console.log("Posts", Posts);
             return { post: newPost };
         },
         editProfile: (_: any, args: { profileInfo: EditProfileInput }) => {

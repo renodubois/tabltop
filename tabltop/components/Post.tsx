@@ -6,6 +6,7 @@ import {
 	TextStyle,
 	View,
 	ViewStyle,
+	Pressable,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Rating } from "react-native-ratings";
@@ -225,7 +226,15 @@ const Post = ({
 				<View style={{ flexDirection: "row", paddingBottom: 15 }}>
 					<View style={titleContainerStyle}>
 						<View style={{ marginRight: 10 }}>
-							<Text style={gameStyles}>{gameName}</Text>
+							<Pressable
+								onPress={() =>
+									navigation.navigate("GamePage", {
+										gameID: game.id,
+									})
+								}
+							>
+								<Text style={gameStyles}>{gameName}</Text>
+							</Pressable>
 						</View>
 						<Rating
 							style={ratingContainerStyle}
@@ -242,15 +251,23 @@ const Post = ({
 					</View>
 					{/* TODO: revisit where the icon is positioned on long names */}
 					<View style={{ flex: 1, marginLeft: 10, marginTop: -30 }}>
-						<Image
-							source={{ uri: game.thumbnailURL }}
-							style={{
-								height: 70,
-								width: 70,
-								borderRadius: 5,
-								marginRight: 20,
-							}}
-						/>
+						<Pressable
+							onPress={() =>
+								navigation.navigate("GamePage", {
+									gameID: game.id,
+								})
+							}
+						>
+							<Image
+								source={{ uri: game.thumbnailURL }}
+								style={{
+									height: 70,
+									width: 70,
+									borderRadius: 5,
+									marginRight: 20,
+								}}
+							/>
+						</Pressable>
 					</View>
 				</View>
 			</View>

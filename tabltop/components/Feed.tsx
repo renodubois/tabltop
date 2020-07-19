@@ -22,6 +22,7 @@ export const GET_POSTS = gql`
 				profilePictureURL
 			}
 			game {
+				id
 				name
 				thumbnailURL
 			}
@@ -46,7 +47,7 @@ const DEBUG_testGame = {
 		"https://cf.geekdo-images.com/thumb/img/wvfZwwtcqpth4bgHnh4M-EhUCXg=/fit-in/200x150/pic4458123.jpg",
 	minPlayers: 1,
 	maxPlayers: 5,
-	categories: ["Card Game", "Set Collection"]
+	categories: ["Card Game", "Set Collection"],
 };
 
 interface Props {
@@ -86,7 +87,7 @@ const Feed = ({ navigation, route }: Props): JSX.Element => {
 						onPress={(): void =>
 							navigation.navigate("CheckIn", {
 								game: DEBUG_testGame,
-								userID: "1"
+								userID: "1",
 							})
 						}
 						title="Check in form"
@@ -99,7 +100,7 @@ const Feed = ({ navigation, route }: Props): JSX.Element => {
 								// Makes a post from someone that isn't my user
 								userID: Math.floor(
 									Math.random() * 3 + 2
-								).toString()
+								).toString(),
 							})
 						}
 						title="Diff user"

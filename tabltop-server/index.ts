@@ -41,6 +41,7 @@ const typeDefs = gql`
         posts: [Post]
         postsByUser(userID: String): [Post]
         games: [Game]
+        gameByID(gameID: String): Game
         user(userID: String): User
         searchGames(query: String): [Game]
         searchUsers(query: String): [User]
@@ -197,8 +198,15 @@ const resolvers = {
                 return false;
             }).sort((a, b) => b.date - a.date),
         games: () => Games,
+        gameByID: (_: any, args: { gameID: string }) => {
+            const game = Games.find((game) => game.id === args.gameID);
+            return game ? game : null;
+        },
         user: (_: any, args: { userID: string }) => {
             const user = Users.find((user) => user.id === args.userID);
+            if (!user) {
+                return null;
+            }
             // Compute follwers
             // TODO: Actually type the server file
             // @ts-ignore

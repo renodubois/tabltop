@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Theme } from "@react-navigation/native/lib/typescript/src/types";
 import React from "react";
-import { StatusBar, StyleProp, TextStyle } from "react-native";
-import MaterialCommunityIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { StatusBar, StyleProp, TextStyle, Text } from "react-native";
+// import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Icon from "react-native-vector-icons/MaterialIcons";
 import { initApolloClient } from "./apollo";
 import ActivityScreen from "./screens/ActivityScreen";
 import FeedScreen from "./screens/FeedScreen";
@@ -30,9 +30,9 @@ const AppTheme: Theme = {
 		background: "#CBD2D9",
 		card: "#ffffff",
 		border: "#ffffff",
-		text: "#000000"
+		text: "#000000",
 	},
-	dark: false
+	dark: false,
 };
 
 const App = (): JSX.Element => {
@@ -82,13 +82,14 @@ const App = (): JSX.Element => {
 								name: iconName,
 								size: 36,
 								color: color,
-								style: iconStyles
+								style: iconStyles,
 							};
 							if (useCommunityIcon) {
-								return <MaterialCommunityIcon {...iconProps} />;
+								return <Text>NO</Text>;
 							}
-							return <Icon {...iconProps} />;
-						}
+							// return <Icon {...iconProps} />;
+							return <Text>NO</Text>;
+						},
 					})}
 					tabBarOptions={{ showLabel: false }}
 				>

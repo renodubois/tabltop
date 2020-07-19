@@ -5,7 +5,7 @@ import {
 	Text,
 	TextStyle,
 	View,
-	ViewStyle
+	ViewStyle,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Rating } from "react-native-ratings";
@@ -71,7 +71,7 @@ const generateTaggedUsers = (users: User[], navigation: any): JSX.Element[] => {
 					width: 40,
 					height: 40,
 					borderRadius: 25,
-					overflow: "visible"
+					overflow: "visible",
 				}}
 				key={i}
 				onPress={() =>
@@ -83,7 +83,7 @@ const generateTaggedUsers = (users: User[], navigation: any): JSX.Element[] => {
 					style={{
 						width: 40,
 						height: 40,
-						borderRadius: 25
+						borderRadius: 25,
 					}}
 				/>
 			</TouchableOpacity>
@@ -99,7 +99,7 @@ const generateTaggedUsers = (users: User[], navigation: any): JSX.Element[] => {
 					borderRadius: 25,
 					backgroundColor: "#9AA5B1",
 					justifyContent: "center",
-					alignItems: "center"
+					alignItems: "center",
 				}}
 				onPress={() => null}
 				key={3}
@@ -120,23 +120,23 @@ const Post = ({
 	rating,
 	taggedUsers,
 	caption,
-	navigation
+	navigation,
 }: Props) => {
 	let gameName = game.name;
 	const gameStyles: StyleProp<TextStyle> = {
 		fontSize: 24,
 		fontWeight: "bold",
-		fontFamily: "YoungSerif"
+		// fontFamily: "YoungSerif"
 	};
 	const ratingContainerStyle: any = {
 		width: 75,
 		marginTop: 5,
 		marginLeft: 10,
-		alignSelf: "flex-start"
+		alignSelf: "flex-start",
 	};
 	const titleContainerStyle: StyleProp<ViewStyle> = {
 		flex: 1,
-		flexDirection: "column"
+		flexDirection: "column",
 	};
 	if (gameName.length > MAX_TITLE_LENGTH) {
 		gameName = gameName.substr(0, MAX_TITLE_LENGTH) + "...";
@@ -154,12 +154,12 @@ const Post = ({
 				shadowColor: "#000",
 				shadowOffset: { height: 5, width: 5 },
 				shadowOpacity: 0.2,
-				shadowRadius: 5
+				shadowRadius: 5,
 			}}
 		>
 			<View
 				style={{
-					padding: 20
+					padding: 20,
 				}}
 			>
 				<View
@@ -167,7 +167,7 @@ const Post = ({
 						flexDirection: "row",
 						justifyContent: "space-between",
 						alignItems: "center",
-						paddingBottom: 15
+						paddingBottom: 15,
 					}}
 				>
 					<View
@@ -179,11 +179,11 @@ const Post = ({
 								height: 40,
 								borderRadius: 25,
 								marginRight: 10,
-								overflow: "visible"
+								overflow: "visible",
 							}}
 							onPress={() =>
 								navigation.push("Profile", {
-									userID: author.id
+									userID: author.id,
 								})
 							}
 						>
@@ -192,7 +192,7 @@ const Post = ({
 								style={{
 									width: 40,
 									height: 40,
-									borderRadius: 25
+									borderRadius: 25,
 								}}
 							/>
 						</TouchableOpacity>
@@ -200,14 +200,14 @@ const Post = ({
 							style={{ marginRight: 8 }}
 							onPress={() =>
 								navigation.push("Profile", {
-									userID: author.id
+									userID: author.id,
 								})
 							}
 						>
 							<Text
 								style={{
 									fontSize: 16,
-									fontWeight: "bold"
+									fontWeight: "bold",
 								}}
 							>
 								{author.username}
@@ -248,7 +248,7 @@ const Post = ({
 								height: 70,
 								width: 70,
 								borderRadius: 5,
-								marginRight: 20
+								marginRight: 20,
 							}}
 						/>
 					</View>
@@ -259,7 +259,7 @@ const Post = ({
 					flexDirection: "row",
 					marginTop: 20,
 					alignItems: "stretch",
-					justifyContent: "center"
+					justifyContent: "center",
 				}}
 			>
 				<View
@@ -267,7 +267,7 @@ const Post = ({
 						flex: 1,
 						borderColor: "#9AA5B1",
 						borderTopWidth: 1,
-						borderRightWidth: 1
+						borderRightWidth: 1,
 					}}
 				>
 					<TouchableOpacity
@@ -275,7 +275,7 @@ const Post = ({
 						style={{
 							alignItems: "center",
 							justifyContent: "center",
-							padding: 10
+							padding: 10,
 						}}
 					>
 						<Text>Like</Text>
@@ -285,7 +285,7 @@ const Post = ({
 					style={{
 						flex: 1,
 						borderColor: "#9AA5B1",
-						borderTopWidth: 1
+						borderTopWidth: 1,
 					}}
 				>
 					<TouchableOpacity
@@ -293,7 +293,7 @@ const Post = ({
 						style={{
 							alignItems: "center",
 							justifyContent: "center",
-							padding: 10
+							padding: 10,
 						}}
 					>
 						<Text>Comment</Text>

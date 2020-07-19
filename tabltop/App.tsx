@@ -86,10 +86,10 @@ const App = (): JSX.Element => {
 								style: iconStyles,
 							};
 							if (useCommunityIcon) {
-								return <Text>NO</Text>;
+								return <Text>{iconName[0].toUpperCase()}</Text>;
 							}
 							// return <Icon {...iconProps} />;
-							return <Text>NO</Text>;
+							return <Text>{iconName[0].toUpperCase()}</Text>;
 						},
 					})}
 					tabBarOptions={{ showLabel: false }}

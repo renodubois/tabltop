@@ -6,11 +6,12 @@ import { Image, Text, View } from "react-native";
 import {
 	ScrollView,
 	TextInput,
-	TouchableOpacity
+	TouchableOpacity,
 } from "react-native-gesture-handler";
 import { updatePostCacheAfterPostInsert } from "../cache";
 import { BaseProps, CheckInFormData, OptionalItemsFormData } from "../types";
 import CheckInOptionalItems from "./CheckInOptionalItems";
+import Styles from "../styles";
 
 type Props = BaseProps<"CheckIn">;
 
@@ -46,12 +47,12 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 		caption: "",
 		rating: 1,
 		game: route.params.game,
-		taggedUsers: []
+		taggedUsers: [],
 	});
 	const [createPost] = useMutation(CREATE_POST, {
 		update(cache, { data: { createPost } }) {
 			updatePostCacheAfterPostInsert(cache, createPost.post);
-		}
+		},
 	});
 	const onOptionalItemChange = (
 		optionalFormData: OptionalItemsFormData
@@ -79,18 +80,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 			onChangeText={(caption): void =>
 				setFormData({ ...formData, caption })
 			}
-			style={{
-				marginTop: 30,
-				marginLeft: 10,
-				marginRight: 10,
-				borderRadius: 10,
-				padding: 14,
-				paddingTop: 14,
-				fontSize: 18,
-				backgroundColor: "#FFFFFF",
-				height: 110,
-				textAlignVertical: "top"
-			}}
+			style={Styles.inputMultiline}
 			multiline
 			numberOfLines={4}
 			// autoFocus NOTE: re-enable this when not doing dev?
@@ -103,7 +93,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 				marginTop: 30,
 				marginLeft: 15,
 				marginRight: 25,
-				width: "100%"
+				width: "100%",
 			}}
 		>
 			<Text style={{ fontSize: 14, color: "#353535", marginBottom: 25 }}>
@@ -111,7 +101,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 			</Text>
 			<View
 				style={{
-					flexDirection: "row"
+					flexDirection: "row",
 				}}
 			>
 				<Slider
@@ -129,7 +119,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 						flexDirection: "row",
 						flex: 1,
 						paddingLeft: 45,
-						alignSelf: "center"
+						alignSelf: "center",
 					}}
 				>
 					<Text
@@ -138,7 +128,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 							fontWeight: "bold",
 							lineHeight: 35,
 							minWidth: 62,
-							textAlign: "right"
+							textAlign: "right",
 						}}
 					>
 						{formData.rating}
@@ -162,9 +152,9 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 								authorId: route.params.userID, // TODO: put currently logged in user here @tasksforauth
 								taggedUsers: formData.taggedUsers.map(
 									(user) => user.id
-								)
-							}
-						}
+								),
+							},
+						},
 					});
 					navigation.navigate("Feed");
 				}}
@@ -174,7 +164,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 					// It doesn't look _great_ with the dark blue header
 					backgroundColor: "#47A3F3",
 					paddingTop: 22,
-					paddingBottom: 22
+					paddingBottom: 22,
 				}}
 			>
 				<Text
@@ -185,7 +175,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 						fontWeight: "bold",
 						fontSize: 24,
 						textAlign: "center",
-						letterSpacing: 2
+						letterSpacing: 2,
 					}}
 				>
 					CHECK IN
@@ -204,7 +194,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 						flexDirection: "row",
 						backgroundColor: "#E6F6FF",
 						borderRadius: 10,
-						overflow: "hidden"
+						overflow: "hidden",
 					}}
 				>
 					<Image
@@ -217,7 +207,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 								style={{
 									fontSize: 24,
 									fontWeight: "bold",
-									lineHeight: 48
+									lineHeight: 48,
 								}}
 							>
 								{formData.game.name}
@@ -229,7 +219,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 									fontStyle: "italic",
 									color: "#52606D",
 									paddingLeft: 10,
-									lineHeight: 48
+									lineHeight: 48,
 								}}
 							>
 								({formData.game.yearPublished})
@@ -239,7 +229,7 @@ const CheckIn = ({ navigation, route }: Props): JSX.Element => {
 							style={{
 								fontSize: 18,
 								fontVariant: ["small-caps"],
-								color: "#3E4C59"
+								color: "#3E4C59",
 							}}
 						>
 							{formData.game.publisher.toLowerCase()}

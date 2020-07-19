@@ -1,6 +1,6 @@
 import React from "react";
 import { User, Post as PostType, BaseProps } from "../types";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Button } from "react-native";
 import Feed from "./Feed";
 import Post from "./Post";
 
@@ -38,6 +38,13 @@ const Profile = ({ user, posts, navigation, route }: ProfileProps) => {
 				</View>
 				{user.followers ? (
 					<Text>Followers: {user.followers.length}</Text>
+				) : null}
+				{/* check for currently logged in user @tasksforauth */}
+				{route.params.userID === "1" ? (
+					<Button
+						onPress={() => navigation.navigate("EditProfile")}
+						title="Edit Profile"
+					/>
 				) : null}
 			</View>
 			<View style={{ flex: 2 }}>

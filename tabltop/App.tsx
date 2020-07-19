@@ -18,6 +18,7 @@ export type StackNavigationParamsList = {
 	Feed: undefined;
 	CheckIn: { game: Game; userID: string };
 	Profile: { userID: string };
+	EditProfile: undefined;
 	GameSearch: undefined;
 };
 

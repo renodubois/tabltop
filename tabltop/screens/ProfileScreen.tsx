@@ -1,9 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { Text, View } from "react-native";
-import { commonStackNavigatorStyles } from "../styles";
-import ProfileWrapper from "../components/ProfileWrapper";
 import { StackNavigationParamsList } from "../App";
+import EditProfileWrapper from "../components/EditProfileWrapper";
+import ProfileWrapper from "../components/ProfileWrapper";
+import { commonStackNavigatorStyles } from "../styles";
 
 const ProfileNavigator = createStackNavigator<StackNavigationParamsList>();
 
@@ -15,6 +15,11 @@ const ProfileScreen = ({}) => {
 				name="Profile"
 				component={ProfileWrapper}
 				initialParams={{ userID: "1" }}
+			/>
+			<ProfileNavigator.Screen
+				name="EditProfile"
+				component={EditProfileWrapper}
+				options={{ title: "Edit Profile" }}
 			/>
 		</ProfileNavigator.Navigator>
 	);

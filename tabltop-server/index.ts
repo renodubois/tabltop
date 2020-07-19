@@ -64,8 +64,18 @@ const typeDefs = gql`
         post: Post!
     }
 
+    input EditProfileInput {
+        userId: ID!
+        bio: String
+        photo: String
+    }
+    type EditProfilePayload {
+        user: User!
+    }
+
     type Mutation {
         createPost(postInfo: CreatePostInput): CreatePostPayload
+        editProfile(profileInfo: EditProfileInput): EditProfilePayload
     }
 `;
 // SAMPLE DATA
@@ -144,6 +154,12 @@ interface CreatePostInput {
     images: string[];
 }
 
+interface EditProfileInput {
+    userId: string;
+    bio: string;
+    photo: string;
+}
+
 const getUserByID = (userID: string) => {
     return Users.find((user) => user.id === userID);
 };
@@ -220,10 +236,23 @@ const resolvers = {
             console.log("Posts", Posts);
             return { post: newPost };
         },
+        editProfile: (_: any, args: { profileInfo: EditProfileInput }) => {
+            const { profileInfo } = args;
+            const indexOfUser = Users.findIndex(
+                (user) => user.id === profileInfo.userId
+            );
+            if (indexOfUser >= 0) {
+                // Make edits to user
+                Users[indexOfUser].bio = profileInfo.bio;
+
+                return { user: Users[indexOfUser] };
+            }
+            console.error("DIDN'T FIND USER w/ USERID ", profileInfo.userId);
+        },
     },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, debug: true });
 server.listen().then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
 });

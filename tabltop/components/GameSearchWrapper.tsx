@@ -9,7 +9,8 @@ import LoadingOverlay from "./LoadingOverlay";
 import Styles from "../styles";
 
 type Props = BaseProps<"Feed">;
-interface GameDataReturn {
+// TODO: rename this (or the other GameDataReturn)
+export interface GameDataReturn {
 	searchGames: Game[];
 }
 export const GET_GAMES = gql`

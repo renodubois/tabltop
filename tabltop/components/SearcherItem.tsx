@@ -27,7 +27,7 @@ const SearcherItem = ({
 					style={Styles.gameSearchItemImage}
 				/>
 				<Text style={Styles.gameSearchItemText}>{label}</Text>
-				<Text>{toggled ? "✓" : "x"}</Text>
+				{hasToggle && <Text>{toggled ? "✓" : "x"}</Text>}
 			</View>
 		</Pressable>
 	);

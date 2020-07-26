@@ -10,7 +10,7 @@ interface Props {
 	onTextChange: (newQuery: string) => void;
 }
 
-const findGame = (query: string, games: Game[]): Game[] => {
+export const findGame = (query: string, games: Game[]): Game[] => {
 	if (query === "") {
 		return [];
 	}

@@ -11,14 +11,16 @@ interface Props {
 	onTextChange: (newQuery: string) => void;
 }
 
-const findUser = (query: string, users: User[]): User[] => {
+export const findUser = (query: string, users: User[]): User[] => {
 	// TODO: don't show currently logged in user @tasksforauth
 	if (query === "") {
 		return [];
 	}
 
 	const regex = new RegExp(`${query.trim()}`, "i");
-	return users.filter((user) => user.username.search(regex) >= 0);
+	return users.filter(
+		(user) => user.username.search(regex) >= 0 && user.username !== "reno"
+	);
 };
 
 const UserSearch = ({

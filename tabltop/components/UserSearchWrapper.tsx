@@ -12,7 +12,7 @@ interface Props {
 	checkedUsers: User[];
 	onSubmit: (checkedUsers: User[]) => void;
 }
-interface UserDataReturn {
+export interface UserDataReturn {
 	searchUsers: User[];
 }
 export const GET_USERS = gql`
@@ -28,7 +28,7 @@ export const GET_USERS = gql`
 const UserSearchWrapper = ({ checkedUsers, onSubmit }: Props): JSX.Element => {
 	const [query, setQuery] = useState<string>("");
 	const { loading, error, data } = useQuery<UserDataReturn>(GET_USERS, {
-		variables: { query }
+		variables: { query },
 	});
 	let ResultsError: React.ReactNode | null = null;
 	if (error) {

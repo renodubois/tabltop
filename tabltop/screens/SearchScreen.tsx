@@ -1,17 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { commonStackNavigatorStyles } from "../styles";
 import CheckIn from "../components/CheckIn";
 import GameSearchWrapper from "../components/GameSearchWrapper";
-
-const Search = () => {
-	return (
-		<View>
-			<Text>Search</Text>
-		</View>
-	);
-};
+import GeneralSearch from "../components/GeneralSearch";
+import GamePageWrapper from "../components/GamePageWrapper";
 
 const SearchNavigator = createStackNavigator();
 const SearchScreen = ({}) => {
@@ -19,22 +13,9 @@ const SearchScreen = ({}) => {
 		<SearchNavigator.Navigator screenOptions={commonStackNavigatorStyles}>
 			<SearchNavigator.Screen
 				name="Search"
-				component={Search}
+				component={GeneralSearch}
 				options={{
-					// TODO: account for notches more automatically here
-					header: (props) => (
-						<View
-							style={{
-								padding: 20,
-								paddingTop: 40,
-								backgroundColor: "#1c329c"
-							}}
-						>
-							<Text style={{ color: "white" }}>
-								Search Bar Here
-							</Text>
-						</View>
-					)
+					headerShown: false,
 				}}
 			/>
 			<SearchNavigator.Screen
@@ -46,6 +27,11 @@ const SearchScreen = ({}) => {
 				name="GameSearch"
 				component={GameSearchWrapper}
 				options={{ title: "Find a game" }}
+			/>
+			{/* TODO: make title of this screen the same as the game name (or don't have one at all) */}
+			<SearchNavigator.Screen
+				name="GamePage"
+				component={GamePageWrapper}
 			/>
 		</SearchNavigator.Navigator>
 	);

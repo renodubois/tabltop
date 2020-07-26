@@ -19,6 +19,7 @@ export type StackNavigationParamsList = {
 	EditProfile: undefined;
 	GameSearch: undefined;
 	GamePage: { gameID: string };
+	GeneralSearch: undefined;
 };
 
 const client = initApolloClient();

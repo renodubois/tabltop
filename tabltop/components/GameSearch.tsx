@@ -1,14 +1,12 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
-import Autocomplete from "react-native-autocomplete-input";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Styles from "../styles";
-import { Game } from "../types";
+import { View } from "react-native";
+import { Game, SearchableItem } from "../types";
+import Searcher from "./Seacher";
 
 interface Props {
 	games: Game[];
 	query: string;
-	onGameSelect: (game: Game) => void;
+	onGameSelect: (id: string) => void;
 	onTextChange: (newQuery: string) => void;
 }
 
@@ -25,46 +23,23 @@ const GameSearch = ({
 	games,
 	query,
 	onGameSelect,
-	onTextChange
+	onTextChange,
 }: Props): JSX.Element => {
 	const searchData = findGame(query, games);
 	// TODO: display a placeholder message before we search
 	return (
 		<View>
-			<Autocomplete
-				containerStyle={Styles.gameSearchContainer}
-				autoFocus={true}
+			<Searcher
 				defaultValue={query}
-				data={searchData}
-				placeholder="Find a game"
-				placeholderTextColor="#353535"
-				onChangeText={(text): void => onTextChange(text)}
-				renderItem={(params): JSX.Element => {
-					const { item, index } = params;
-					return (
-						<TouchableOpacity
-							accessible={true}
-							accessibilityHint={
-								"Selects this game to be used for check-in"
-							}
-							accessibilityRole="button"
-							key={index}
-							onPress={(): void => onGameSelect(item)}
-							testID={`game-search-${item.name.toLowerCase()}`}
-						>
-							<View style={Styles.itemContainer}>
-								<Image
-									source={{ uri: item.thumbnailURL }}
-									style={Styles.gameSearchItemImage}
-								/>
-								<Text style={Styles.gameSearchItemText}>
-									{item.name} ({item.yearPublished})
-								</Text>
-							</View>
-						</TouchableOpacity>
-					);
-				}}
-				style={Styles.gameSearchInput}
+				items={searchData.map(
+					(game): SearchableItem => ({
+						label: `${game.name} (${game.yearPublished})`,
+						id: game.id,
+						imageURL: game.thumbnailURL,
+					})
+				)}
+				onChangeText={(query) => onTextChange(query)}
+				onItemSelect={(id) => onGameSelect(id)}
 			/>
 		</View>
 	);

@@ -48,3 +48,10 @@ export interface CheckInFormData {
 export interface OptionalItemsFormData {
 	taggedUsers: User[];
 }
+
+export interface SearchableItem {
+	label: string;
+	id: string;
+	imageURL: string;
+	toggled?: boolean;
+}

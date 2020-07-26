@@ -27,7 +27,7 @@ export const GET_GAMES = gql`
 const GameSearchWrapper = ({ navigation }: Props): JSX.Element => {
 	const [query, setQuery] = useState<string>("");
 	const { loading, error, data } = useQuery<GameDataReturn>(GET_GAMES, {
-		variables: { query }
+		variables: { query },
 	});
 	let ResultsError: React.ReactNode | null = null;
 	if (error) {
@@ -50,9 +50,23 @@ const GameSearchWrapper = ({ navigation }: Props): JSX.Element => {
 				<GameSearch
 					games={data && data.searchGames ? data.searchGames : []}
 					query={query}
-					onGameSelect={(game: Game): void =>
-						navigation.navigate("CheckIn", { game, userID: "1" })
-					}
+					onGameSelect={(gameId: string): void => {
+						if (!data) {
+							// BAD ERROR
+							return;
+						}
+						const selectedGame = data.searchGames.find(
+							(game) => game.id === gameId
+						);
+						if (!selectedGame) {
+							// BAD ERROR
+							return;
+						}
+						return navigation.navigate("CheckIn", {
+							game: selectedGame,
+							userID: "1",
+						});
+					}}
 					onTextChange={(newQuery: string): void =>
 						setQuery(newQuery)
 					}

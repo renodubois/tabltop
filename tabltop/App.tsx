@@ -4,8 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Theme } from "@react-navigation/native/lib/typescript/src/types";
 import React from "react";
 import { StatusBar, StyleProp, TextStyle, Text } from "react-native";
-// import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import Icon from "react-native-vector-icons/MaterialIcons";
 import { initApolloClient } from "./apollo";
 import ActivityScreen from "./screens/ActivityScreen";
 import FeedScreen from "./screens/FeedScreen";
@@ -89,7 +87,6 @@ const App = (): JSX.Element => {
 							if (useCommunityIcon) {
 								return <Text>{iconName[0].toUpperCase()}</Text>;
 							}
-							// return <Icon {...iconProps} />;
 							return <Text>{iconName[0].toUpperCase()}</Text>;
 						},
 					})}

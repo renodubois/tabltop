@@ -1,13 +1,12 @@
 import { useQuery } from "@apollo/react-hooks";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StackNavigationParamsList } from "App";
 import gql from "graphql-tag";
 import React, { useState } from "react";
-import { Button, Text, View, ScrollView } from "react-native";
-import { Post as PostType } from "types";
-import SearchModal from "./SearchModal";
+import { Button, ScrollView, Text, View } from "react-native";
+import { Game, Post as PostType, StackNavigationParamsList } from "types";
 import Post from "./Post";
+import SearchModal from "./SearchModal";
 
 export interface GetPostsData {
 	posts: PostType[];
@@ -38,7 +37,7 @@ export const GET_POSTS = gql`
 	}
 `;
 
-const DEBUG_testGame = {
+const DEBUG_testGame: Game = {
 	id: "266192",
 	name: "Wingspan",
 	publisher: "Stonemaier Games",
@@ -48,6 +47,7 @@ const DEBUG_testGame = {
 	minPlayers: 1,
 	maxPlayers: 5,
 	categories: ["Card Game", "Set Collection"],
+	averageRating: "0",
 };
 
 interface Props {

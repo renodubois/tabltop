@@ -420,9 +420,6 @@ const resolvers = {
                 ),
             };
 
-            console.log(newPost);
-
-            // @ts-ignore
             Posts.push(newPost);
             return { post: newPost };
         },

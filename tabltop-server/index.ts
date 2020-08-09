@@ -255,8 +255,13 @@ const resolvers = {
             );
         },
         searchUsers: (_: any, args: { query: string }) => {
-            return Users.filter((user) =>
-                user.username.toLowerCase().includes(args.query.toLowerCase())
+            return Users.filter(
+                (user) =>
+                    // Replace my username with the currently logged in user @tasksforauth
+                    user.username !== "reno" &&
+                    user.username
+                        .toLowerCase()
+                        .includes(args.query.toLowerCase())
             );
         },
     },

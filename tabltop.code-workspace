@@ -7,5 +7,7 @@
             "path": "tabltop-server"
         }
     ],
-    "settings": {}
+    "settings": {
+        "editor.formatOnSave": true
+    }
 }

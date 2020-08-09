@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, Image, Pressable } from "react-native";
-import Styles from "../styles";
+import Styles, { commonStackNavigatorStyles } from "../styles";
 
 interface Props {
 	hasToggle: boolean;

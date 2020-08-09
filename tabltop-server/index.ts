@@ -263,7 +263,15 @@ const Lists: List[] = [
         editable: false,
         name: "Want To Play",
         public: true,
-        contents: [Games[0], Games[1]],
+        contents: [Games[1], Games[2]],
+    },
+    {
+        id: "2",
+        userIDs: ["1"],
+        editable: false,
+        name: "Collection",
+        public: true,
+        contents: [Games[4], Games[5]],
     },
 ];
 

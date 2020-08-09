@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View, Image, ScrollView } from "react-native";
-import { BaseProps, Game, Post as PostType } from "../types";
+import { Button, Image, ScrollView, Text, View } from "react-native";
 import { Rating } from "react-native-ratings";
+import { BaseProps, Game, Post as PostType } from "../types";
 import Post from "./Post";
 
 interface Props extends BaseProps<"GamePage"> {
@@ -76,6 +76,18 @@ const GamePage = ({ game, posts, navigation, route }: Props) => {
 					imageSize={20}
 					tintColor="#E6F6FF"
 				/>
+				<View style={{ padding: 15 }}>
+					{/* Replace w/ currently logged in user @tasksforauth */}
+					<Button
+						onPress={() =>
+							navigation.navigate("CheckIn", {
+								game,
+								userID: "1",
+							})
+						}
+						title="Add a Check In"
+					/>
+				</View>
 			</View>
 			<View style={{ flex: 2 }}>
 				<ScrollView style={{ padding: 10, paddingBottom: 0 }}>

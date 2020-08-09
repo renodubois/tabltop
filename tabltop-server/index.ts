@@ -38,12 +38,22 @@ const typeDefs = gql`
         images: [String]
     }
 
+    type List {
+        id: ID!
+        userIDs: [String]
+        name: String
+        editable: Boolean
+        public: Boolean
+        contents: [Game]
+    }
+
     type Query {
         posts: [Post]
         postsByUser(userID: String): [Post]
         postsByGame(gameID: String): [Post]
         games: [Game]
         gameByID(gameID: String): Game
+        listsForUser(userID: String): [List]
         user(userID: String): User
         searchGames(query: String): [Game]
         searchUsers(query: String): [User]
@@ -76,14 +86,77 @@ const typeDefs = gql`
         user: User!
     }
 
+    input ListEditInput {
+        listId: ID!
+        gameId: ID!
+    }
+    type ListEditPayload {
+        list: List
+    }
+
     type Mutation {
         createPost(postInfo: CreatePostInput): CreatePostPayload
         editProfile(profileInfo: EditProfileInput): EditProfilePayload
+        addGameToList(listEditInfo: ListEditInput): ListEditPayload
+        removeGameFromList(listEditInfo: ListEditInput): ListEditPayload
     }
 `;
 // SAMPLE DATA
-// TODO: add TS types for this
-const Games = [
+interface Game {
+    id: string;
+    name: string;
+    publisher: string;
+    yearPublished: number;
+    thumbnailURL: string;
+    minPlayers: number;
+    maxPlayers: number;
+    categories: string[];
+}
+const Games: Game[] = [
+    {
+        id: "174430",
+        name: "Gloomhaven",
+        publisher: "Cephalofair Games",
+        thumbnailURL:
+            "https://cf.geekdo-images.com/thumb/img/e7GyV4PaNtwmalU-EQAGecwoBSI=/fit-in/200x150/pic2437871.jpg",
+        categories: ["Cooperative", "Legacy Game"],
+        minPlayers: 1,
+        maxPlayers: 4,
+        yearPublished: 2017,
+    },
+    {
+        id: "162886",
+        name: "Spirit Island",
+        publisher: "Greater Than Games",
+        thumbnailURL:
+            "https://cf.geekdo-images.com/thumb/img/t9mRnhW6swyL2nPSScv9iroCyZQ=/fit-in/200x150/pic3615739.png",
+        categories: ["Cooperative", "Territory Building"],
+        minPlayers: 1,
+        maxPlayers: 4,
+        yearPublished: 2017,
+    },
+    {
+        id: "224517",
+        name: "Brass: Birmingham",
+        publisher: "Roxly",
+        thumbnailURL:
+            "https://cf.geekdo-images.com/thumb/img/t9mRnhW6swyL2nPSScv9iroCyZQ=/fit-in/200x150/pic3615739.png",
+        categories: ["Economic", "Hand Management"],
+        minPlayers: 2,
+        maxPlayers: 4,
+        yearPublished: 2018,
+    },
+    {
+        id: "167791",
+        name: "Terraforming Mars",
+        publisher: "FryxGames",
+        thumbnailURL:
+            "https://cf.geekdo-images.com/thumb/img/yFqQ569DfL8NSTGTUw0vF9SCR7k=/fit-in/200x150/pic3536616.jpg",
+        categories: ["Economic", "Territory Building"],
+        minPlayers: 1,
+        maxPlayers: 5,
+        yearPublished: 2016,
+    },
     {
         id: "266192",
         name: "Wingspan",
@@ -121,7 +194,13 @@ const Ratings: { [gameID: string]: Rating } = {
     },
 };
 
-const Users = [
+interface User {
+    id: string;
+    username: string;
+    bio: string;
+    profilePictureURL: string;
+}
+const Users: User[] = [
     {
         id: "1",
         username: "reno",
@@ -157,7 +236,35 @@ const Followage = [
     ["1", "3"],
     ["1", "4"],
 ];
-const Posts = [];
+interface Post {
+    id: string;
+    author: User;
+    caption: string;
+    game: Game;
+    date: string;
+    rating: string;
+    location: string;
+    taggedUsers: User[];
+}
+const Posts: Post[] = [];
+interface List {
+    id: string;
+    userIDs: string[];
+    name: string;
+    editable: boolean;
+    public: boolean;
+    contents: Game[];
+}
+const Lists: List[] = [
+    {
+        id: "1",
+        userIDs: ["1"],
+        editable: false,
+        name: "Want To Play",
+        public: true,
+        contents: [Games[0], Games[1]],
+    },
+];
 
 interface CreatePostInput {
     authorId: string;
@@ -174,6 +281,11 @@ interface EditProfileInput {
     userId: string;
     bio: string;
     photo: string;
+}
+
+interface ListEditInput {
+    listId: string;
+    gameId: string;
 }
 
 const formatGame = (game: any) => {
@@ -205,7 +317,8 @@ const computeFollowers = (userID: string): any[] => {
 // ACTUAL SERVER CODE
 const resolvers = {
     Query: {
-        posts: () => [...Posts].sort((a, b) => b.date - a.date),
+        posts: () =>
+            [...Posts].sort((a, b) => parseInt(b.date) - parseInt(a.date)),
         postsByUser: (_: any, args: { userID: string }) =>
             Posts.filter((post) => {
                 if (post.author.id === args.userID) {
@@ -219,14 +332,14 @@ const resolvers = {
                     return true;
                 }
                 return false;
-            }).sort((a, b) => b.date - a.date),
+            }).sort((a, b) => parseInt(b.date) - parseInt(a.date)),
         postsByGame: (_: any, args: { gameID: string }) =>
             Posts.filter((post) => {
                 if (post.game.id === args.gameID) {
                     return true;
                 }
                 return false;
-            }).sort((a, b) => b.date - a.date),
+            }).sort((a, b) => parseInt(b.date) - parseInt(a.date)),
         games: () => {
             const returnData: any[] = [];
             Games.forEach((game) => {
@@ -263,6 +376,9 @@ const resolvers = {
                         .toLowerCase()
                         .includes(args.query.toLowerCase())
             );
+        },
+        listsForUser: (_: any, args: { userID: string }) => {
+            return Lists.filter((list) => list.userIDs.includes(args.userID));
         },
     },
     Mutation: {
@@ -304,6 +420,9 @@ const resolvers = {
                 ),
             };
 
+            console.log(newPost);
+
+            // @ts-ignore
             Posts.push(newPost);
             return { post: newPost };
         },
@@ -320,6 +439,39 @@ const resolvers = {
                 return { user: Users[indexOfUser] };
             }
             console.error("DIDN'T FIND USER w/ USERID ", profileInfo.userId);
+        },
+        addGameToList: (_: any, args: { listEditInfo: ListEditInput }) => {
+            const { listId, gameId } = args.listEditInfo;
+            const targetList = Lists.find((list) => list.id === listId);
+            if (!targetList) {
+                console.error("List ID wasn't valid");
+                return false;
+            }
+            const targetGame = Games.find((game) => game.id === gameId);
+            if (!targetGame) {
+                console.error("Game ID wasn't valid");
+                return false;
+                // return { list: targetList };
+            }
+
+            targetList.contents.push(targetGame);
+            return { list: targetList };
+        },
+        removeGameFromList: (_: any, args: { listEditInfo: ListEditInput }) => {
+            const { listId, gameId } = args.listEditInfo;
+            const targetList = Lists.find((list) => list.id === listId);
+            if (!targetList) {
+                console.error("List ID wasn't valid");
+                return false;
+            }
+            const targetIndex = targetList.contents.findIndex(
+                (game) => game.id === gameId
+            );
+            if (targetIndex < 0) {
+                return { list: targetList };
+            }
+            targetList.contents.splice(targetIndex);
+            return { list: targetList };
         },
     },
 };

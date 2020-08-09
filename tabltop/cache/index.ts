@@ -22,6 +22,7 @@ const writePostToProfileCache = (
 		data: {
 			user: existingData.user,
 			postsByUser: [post, ...existingData.postsByUser],
+			listsForUser: existingData.listsForUser,
 		},
 	});
 };

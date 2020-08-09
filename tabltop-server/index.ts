@@ -53,6 +53,7 @@ const typeDefs = gql`
         postsByGame(gameID: String): [Post]
         games: [Game]
         gameByID(gameID: String): Game
+        listByID(listID: String): List
         listsForUser(userID: String): [List]
         user(userID: String): User
         searchGames(query: String): [Game]
@@ -380,6 +381,13 @@ const resolvers = {
         listsForUser: (_: any, args: { userID: string }) => {
             return Lists.filter((list) => list.userIDs.includes(args.userID));
         },
+        listByID: (_: any, args: { listID: string }) => {
+            const targetList = Lists.find((list) => list.id === args.listID);
+            if (!targetList) {
+                return null;
+            }
+            return targetList;
+        },
     },
     Mutation: {
         createPost: (_: any, args: { postInfo: CreatePostInput }) => {
@@ -442,13 +450,12 @@ const resolvers = {
             const targetList = Lists.find((list) => list.id === listId);
             if (!targetList) {
                 console.error("List ID wasn't valid");
-                return false;
+                return null;
             }
             const targetGame = Games.find((game) => game.id === gameId);
             if (!targetGame) {
                 console.error("Game ID wasn't valid");
-                return false;
-                // return { list: targetList };
+                return null;
             }
 
             targetList.contents.push(targetGame);
@@ -459,7 +466,7 @@ const resolvers = {
             const targetList = Lists.find((list) => list.id === listId);
             if (!targetList) {
                 console.error("List ID wasn't valid");
-                return false;
+                return null;
             }
             const targetIndex = targetList.contents.findIndex(
                 (game) => game.id === gameId

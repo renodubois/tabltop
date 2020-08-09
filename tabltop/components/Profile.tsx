@@ -1,5 +1,5 @@
 import React from "react";
-import { User, Post as PostType, BaseProps } from "../types";
+import { User, Post as PostType, BaseProps, List } from "../types";
 import { View, Text, Image, ScrollView, Button } from "react-native";
 import Feed from "./Feed";
 import Post from "./Post";
@@ -7,16 +7,19 @@ import Post from "./Post";
 interface ProfileProps extends BaseProps<"Profile"> {
 	user: User;
 	posts: PostType[];
+	lists: List[];
 }
 
-const Profile = ({ user, posts, navigation, route }: ProfileProps) => {
+const Profile = ({ user, lists, posts, navigation, route }: ProfileProps) => {
+	const wantToPlayList = lists.find((list) => list.name === "Want To Play");
+	const collectionList = lists.find((list) => list.name === "Collection");
 	return (
 		<>
 			<View
 				style={{
 					flex: 1,
 					alignItems: "center",
-					backgroundColor: "#fff"
+					backgroundColor: "#fff",
 				}}
 			>
 				<View style={{ marginTop: 40 }}>
@@ -28,7 +31,7 @@ const Profile = ({ user, posts, navigation, route }: ProfileProps) => {
 				<Text
 					style={{
 						fontSize: 24,
-						fontWeight: "bold"
+						fontWeight: "bold",
 					}}
 				>
 					{user.username}
@@ -39,6 +42,24 @@ const Profile = ({ user, posts, navigation, route }: ProfileProps) => {
 				{user.followers ? (
 					<Text>Followers: {user.followers.length}</Text>
 				) : null}
+				<View style={{ flexDirection: "row" }}>
+					<Button
+						onPress={() =>
+							navigation.navigate("List", {
+								listID: wantToPlayList!.id,
+							})
+						}
+						title="Want To Play"
+					/>
+					<Button
+						onPress={() =>
+							navigation.navigate("List", {
+								listID: collectionList!.id,
+							})
+						}
+						title="Collection"
+					/>
+				</View>
 				{/* check for currently logged in user @tasksforauth */}
 				{route.params.userID === "1" ? (
 					<Button

@@ -1,6 +1,6 @@
 import React from "react";
 import Profile from "./Profile";
-import { User, Post, BaseProps } from "../types";
+import { User, Post, BaseProps, List } from "../types";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import LoadingOverlay from "./LoadingOverlay";
@@ -12,6 +12,7 @@ interface Props extends BaseProps<"Profile"> {
 export interface ProfileDataReturn {
 	user: User;
 	postsByUser: Post[];
+	listsForUser: List[];
 }
 
 export const GET_PROFILE_DATA = gql`
@@ -48,6 +49,10 @@ export const GET_PROFILE_DATA = gql`
 				profilePictureURL
 			}
 		}
+		listsForUser(userID: $userID) {
+			id
+			name
+		}
 	}
 `;
 
@@ -71,6 +76,7 @@ const ProfileWrapper = ({ route, navigation }: Props) => {
 		<Profile
 			user={data.user}
 			posts={data.postsByUser ? data.postsByUser : []}
+			lists={data.listsForUser ? data.listsForUser : []}
 			navigation={navigation}
 			route={route}
 		/>

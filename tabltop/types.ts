@@ -44,6 +44,15 @@ export interface Post {
 	images: string[];
 }
 
+export interface List {
+	id: string;
+	name: string;
+	contents: Game[];
+	public: boolean;
+	editable: boolean;
+	userIDs: string[];
+}
+
 export interface BaseProps<ScreenName extends keyof StackNavigationParamsList> {
 	navigation: StackNavigationProp<StackNavigationParamsList, ScreenName>;
 	route: RouteProp<StackNavigationParamsList, ScreenName>;

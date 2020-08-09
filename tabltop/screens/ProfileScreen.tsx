@@ -4,6 +4,7 @@ import { StackNavigationParamsList } from "../types";
 import EditProfileWrapper from "../components/EditProfileWrapper";
 import ProfileWrapper from "../components/ProfileWrapper";
 import { commonStackNavigatorStyles } from "../styles";
+import ListWrapper from "../components/ListWrapper";
 
 const ProfileNavigator = createStackNavigator<StackNavigationParamsList>();
 
@@ -21,6 +22,7 @@ const ProfileScreen = ({}) => {
 				component={EditProfileWrapper}
 				options={{ title: "Edit Profile" }}
 			/>
+			<ProfileNavigator.Screen name="List" component={ListWrapper} />
 		</ProfileNavigator.Navigator>
 	);
 };

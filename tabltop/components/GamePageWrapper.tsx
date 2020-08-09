@@ -51,7 +51,6 @@ export interface GameDataReturn {
 }
 
 const GamePageWrapper = ({ navigation, route }: Props) => {
-	console.log(route.params.gameID);
 	const { loading, error, data } = useQuery<GameDataReturn>(
 		GET_GAME_PAGE_DATA,
 		{

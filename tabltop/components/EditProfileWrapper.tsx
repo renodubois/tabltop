@@ -38,8 +38,6 @@ const EditProfileWrapper = ({ route, navigation }: Props) => {
 	if (loading) {
 		return <LoadingOverlay />;
 	}
-	console.log("data", data);
-	console.log("error", error);
 	if (error) {
 		return <ErrorOverlay error={error} />;
 	}

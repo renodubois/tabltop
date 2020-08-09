@@ -141,7 +141,7 @@ const Games: Game[] = [
         name: "Brass: Birmingham",
         publisher: "Roxly",
         thumbnailURL:
-            "https://cf.geekdo-images.com/thumb/img/t9mRnhW6swyL2nPSScv9iroCyZQ=/fit-in/200x150/pic3615739.png",
+            "https://cf.geekdo-images.com/thumb/img/PER_53OQ2Y0i82FLMMo3qPQBzR0=/fit-in/200x150/pic3490053.jpg",
         categories: ["Economic", "Hand Management"],
         minPlayers: 2,
         maxPlayers: 4,
@@ -482,7 +482,7 @@ const resolvers = {
             if (targetIndex < 0) {
                 return { list: targetList };
             }
-            targetList.contents.splice(targetIndex);
+            targetList.contents.splice(targetIndex, 1);
             return { list: targetList };
         },
     },

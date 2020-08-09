@@ -1,6 +1,16 @@
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { StackNavigationParamsList } from "App";
+
+export type StackNavigationParamsList = {
+	Feed: undefined;
+	CheckIn: { game: Game; userID: string };
+	Profile: { userID: string };
+	EditProfile: undefined;
+	GameSearch: undefined;
+	GamePage: { gameID: string };
+	GeneralSearch: undefined;
+	List: { listID: string };
+};
 
 export interface User {
 	id: string;

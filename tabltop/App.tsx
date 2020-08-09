@@ -3,24 +3,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Theme } from "@react-navigation/native/lib/typescript/src/types";
 import React from "react";
-import { StatusBar, StyleProp, TextStyle, Text } from "react-native";
+import { StatusBar, StyleProp, Text, TextStyle } from "react-native";
 import { initApolloClient } from "./apollo";
 import ActivityScreen from "./screens/ActivityScreen";
 import FeedScreen from "./screens/FeedScreen";
 import NewPostScreen from "./screens/NewPostScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SearchScreen from "./screens/SearchScreen";
-import { Game } from "./types";
-
-export type StackNavigationParamsList = {
-	Feed: undefined;
-	CheckIn: { game: Game; userID: string };
-	Profile: { userID: string };
-	EditProfile: undefined;
-	GameSearch: undefined;
-	GamePage: { gameID: string };
-	GeneralSearch: undefined;
-};
 
 const client = initApolloClient();
 const Tab = createBottomTabNavigator();

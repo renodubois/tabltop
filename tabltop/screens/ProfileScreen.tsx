@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { StackNavigationParamsList } from "../App";
+import { StackNavigationParamsList } from "../types";
 import EditProfileWrapper from "../components/EditProfileWrapper";
 import ProfileWrapper from "../components/ProfileWrapper";
 import { commonStackNavigatorStyles } from "../styles";

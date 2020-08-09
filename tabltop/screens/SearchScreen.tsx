@@ -6,6 +6,7 @@ import CheckIn from "../components/CheckIn";
 import GameSearchWrapper from "../components/GameSearchWrapper";
 import GeneralSearch from "../components/GeneralSearch";
 import GamePageWrapper from "../components/GamePageWrapper";
+import ProfileWrapper from "../components/ProfileWrapper";
 
 const SearchNavigator = createStackNavigator();
 const SearchScreen = ({}) => {
@@ -33,6 +34,7 @@ const SearchScreen = ({}) => {
 				name="GamePage"
 				component={GamePageWrapper}
 			/>
+			<SearchNavigator.Screen name="Profile" component={ProfileWrapper} />
 		</SearchNavigator.Navigator>
 	);
 };

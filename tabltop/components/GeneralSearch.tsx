@@ -74,7 +74,7 @@ const GeneralSearch = ({ navigation }: Props) => {
 		});
 		queryLoading = loading;
 		onItemSelect = (id: string) =>
-			navigation.navigate("Profile", { userID: id });
+			navigation.push("Profile", { userID: id });
 		if (error) {
 			SearchResults = <ErrorOverlay error={error} />;
 		} else if (!loading) {

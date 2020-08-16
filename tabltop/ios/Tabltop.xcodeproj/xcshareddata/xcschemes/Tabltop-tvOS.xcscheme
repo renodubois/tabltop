@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1130"
+   LastUpgradeVersion = "1200"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
                BuildableName = "tabltop-tvOS.app"
                BlueprintName = "tabltop-tvOS"
-               ReferencedContainer = "container:tabltop.xcodeproj">
+               ReferencedContainer = "container:Tabltop.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
                BuildableName = "tabltop-tvOSTests.xctest"
                BlueprintName = "tabltop-tvOSTests"
-               ReferencedContainer = "container:tabltop.xcodeproj">
+               ReferencedContainer = "container:Tabltop.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,7 +57,7 @@
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
             BuildableName = "tabltop-tvOS.app"
             BlueprintName = "tabltop-tvOS"
-            ReferencedContainer = "container:tabltop.xcodeproj">
+            ReferencedContainer = "container:Tabltop.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -74,7 +74,7 @@
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
             BuildableName = "tabltop-tvOS.app"
             BlueprintName = "tabltop-tvOS"
-            ReferencedContainer = "container:tabltop.xcodeproj">
+            ReferencedContainer = "container:Tabltop.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
